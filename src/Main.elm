@@ -181,7 +181,7 @@ viewPlayer player =
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ Html.Attributes.id "app" ]
         [ div [ Html.Attributes.id "card-selection" ] (List.map viewCard model.cardSelection)
         , viewPlayer model.player
         ]
