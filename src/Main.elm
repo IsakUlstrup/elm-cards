@@ -67,30 +67,43 @@ applyCard card player =
 
 enemyDeck : List Card
 enemyDeck =
-    [ subtractCard 1, subtractCard 2, subtractCard 3, multiplyCard False 0.9, multiplyCard False 0.8, multiplyCard False 0.7 ]
+    [ subtractCard 1
+    , subtractCard 2
+    , subtractCard 3
+    , multiplyCard False 0.9
+    , multiplyCard False 0.8
+    , multiplyCard False 0.7
+    ]
 
 
 playerDeck : List Card
 playerDeck =
-    [ addCard 1, addCard 2, addCard 3, multiplyCard True 1.1, multiplyCard True 1.2, multiplyCard True 2 ]
+    [ addCard 1
+    , addCard 2
+    , addCard 3
+    , multiplyCard True 1.1
+    , multiplyCard True 1.2
+    , multiplyCard True 2
+    ]
 
 
-randomCard : List a -> Random.Generator (Maybe a)
-randomCard xs =
+randomListItem : List a -> Random.Generator (Maybe a)
+randomListItem xs =
     Random.int 0 (List.length xs - 1)
         |> Random.andThen (\index -> List.drop index xs |> List.head |> Random.constant)
 
 
 randomCards : Int -> List Card -> List Card -> Random.Generator (List (Maybe Card))
 randomCards numCards deck0 deck1 =
-    Random.int 0 1
+    randomListItem [ deck0, deck1 ]
         |> Random.andThen
-            (\deckIndex ->
-                if deckIndex == 0 then
-                    Random.list numCards (randomCard deck0)
+            (\deck ->
+                case deck of
+                    Just d ->
+                        Random.list numCards (randomListItem d)
 
-                else
-                    Random.list numCards (randomCard deck1)
+                    Nothing ->
+                        Random.constant []
             )
 
 
