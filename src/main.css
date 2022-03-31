@@ -30,6 +30,16 @@ body {
   padding: 1rem;
   margin: 2rem;
   width: 10%;
+  transition: transform 0.3s ease-out;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+.card:active {
+  transform: scale(2);
 }
 
 .card.positive {
