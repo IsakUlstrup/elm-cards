@@ -15,12 +15,13 @@ body {
   color: #293c4b;
   background-color: #262626;
   color: white;
+  padding: 2rem;
 }
 
 #card-selection {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 @keyframes pop {
@@ -39,14 +40,14 @@ body {
 
 #player {
   animation: pop 0.4s none;
+  margin-bottom: 15rem;
 }
 
 .card {
   border: 0.1rem solid #262626;
   border-radius: 0.3rem;
   padding: 1rem;
-  margin: 5%;
-  width: 10%;
+  width: 15%;
   min-width: 5rem;
   transition: transform 0.3s ease-out;
   cursor: pointer;
