@@ -24,6 +24,24 @@ body {
   justify-content: center;
 }
 
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+
+  80% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+#player {
+  animation: pop 0.4s none;
+}
+
 .card {
   border: 0.1rem solid #262626;
   border-radius: 0.3rem;
@@ -44,8 +62,10 @@ body {
 
 .card.positive {
   border: 0.2rem solid green;
+  background: linear-gradient(lime, green);
 }
 
 .card.negative {
   border: 0.2rem solid red;
+  background: linear-gradient(orange, red);
 }

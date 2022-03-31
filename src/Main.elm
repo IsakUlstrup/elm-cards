@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, button, div, h1, h3, p, text)
+import Html exposing (Html, button, div, h1, p, text)
 import Html.Attributes
 import Html.Events
 import Random
@@ -27,17 +27,17 @@ type CardOperation
 
 addCard : Float -> Card
 addCard n =
-    Card "Add" ("+" ++ String.fromFloat n) (Add n) True
+    Card "➕" ("+" ++ String.fromFloat n) (Add n) True
 
 
 subtractCard : Float -> Card
 subtractCard n =
-    Card "Subtract" ("-" ++ String.fromFloat n) (Subtract n) False
+    Card "➖" ("-" ++ String.fromFloat n) (Subtract n) False
 
 
 multiplyCard : Bool -> Float -> Card
 multiplyCard positive n =
-    Card "Multiply" ("*" ++ String.fromFloat n) (Multiply n) positive
+    Card "✖️" ("*" ++ String.fromFloat n) (Multiply n) positive
 
 
 
@@ -167,15 +167,15 @@ viewCard card =
                 Html.Attributes.class "negative"
     in
     button [ Html.Events.onClick (SelectCard card), Html.Attributes.class "card", positiveClass ]
-        [ h3 [] [ text card.name ]
+        [ h1 [] [ text card.name ]
         , p [] [ text card.description ]
         ]
 
 
 viewPlayer : Player -> Html msg
 viewPlayer player =
-    div []
-        [ h1 [] [ text (String.fromFloat player) ]
+    div [ Html.Attributes.id "player" ]
+        [ h1 [ Html.Attributes.id "player" ] [ text (String.fromFloat player) ]
         ]
 
 
