@@ -115,7 +115,7 @@ type alias Model =
 init : ( Model, Cmd Msg )
 init =
     ( Model
-        [ Deck.new "Player deck" playerCards
+        [ Deck.new "Player" playerCards
         , Deck.new "Environment" environmentCards
         ]
         0
@@ -199,7 +199,7 @@ viewDeck deck =
                 div [ Html.Attributes.class "hand" ] [ text "no cards" ]
     in
     div [ Html.Attributes.class "deck" ]
-        [ h3 [] [ text deck.name ]
+        [ h3 [] [ text ("Deck: " ++ deck.name) ]
         , hand
         , p [ Html.Attributes.class "deck-meta" ] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile) ++ ", discard: " ++ String.fromInt (List.length deck.discardPile)) ]
         ]
