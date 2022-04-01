@@ -201,10 +201,9 @@ viewDeck deck =
 viewPlayer : Player -> Html msg
 viewPlayer player =
     div [ Html.Attributes.id "player" ]
-        [ h1 [] [ text "Plant" ]
-        , p [] [ text ("water: " ++ String.fromFloat player.water) ]
-        , p [] [ text ("fertilizer: " ++ String.fromFloat player.fertilizer) ]
-        , p [] [ text ("growth: " ++ String.fromFloat player.growth) ]
+        [ h1 [] [ text ("Plant " ++ String.fromInt (round player.growth) ++ "/100") ]
+        , p [] [ text ("💧 " ++ String.fromFloat player.water) ]
+        , p [] [ text ("💩 " ++ String.fromFloat player.fertilizer) ]
         ]
 
 

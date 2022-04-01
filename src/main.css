@@ -48,6 +48,7 @@ body {
 #player {
   animation: pop 0.4s none;
   padding: 3%;
+  font-size: 2rem;
 }
 
 .deck {
