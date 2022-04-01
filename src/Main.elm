@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Deck exposing (Deck)
-import Html exposing (Html, button, div, h1, p, text)
+import Html exposing (Html, button, div, h1, li, p, text, ul)
 import Html.Attributes
 import Html.Events
 import Plant exposing (Plant)
@@ -23,27 +23,29 @@ type alias Card =
 type CardOperation
     = Water Float
     | Fertilize Float
+    | Light Float
+    | Temperature Float
     | Grow Float
 
 
 rainCard : Card
 rainCard =
-    Card "🌧️" "It's raining, water plant" [ Water 1 ]
+    Card "🌧️" "It's raining, water plant" [ Water 1, Light 40, Temperature 20 ]
 
 
 droughtCard : Card
 droughtCard =
-    Card "☀️" "It's super hot, water evaporates" [ Water -1 ]
+    Card "☀️" "It's super hot, water evaporates" [ Water -1, Light 80, Temperature 60 ]
+
+
+monsoonCard : Card
+monsoonCard =
+    Card "⛈️" "A monsoon!, lots of water" [ Water 5, Light 40, Temperature 30 ]
 
 
 cowCard : Card
 cowCard =
     Card "🐄" "A cow passes by and poops everywhere" [ Fertilize 2 ]
-
-
-monsoonCard : Card
-monsoonCard =
-    Card "⛈️" "Oh no! A monsoon!, lots of water dissolves som fertilizer" [ Water 5, Fertilize -2 ]
 
 
 pandaCard : Card
@@ -75,6 +77,12 @@ applyCard card player =
 
                 Fertilize n ->
                     plr |> Plant.fertilize n
+
+                Light n ->
+                    plr |> Plant.setLight n
+
+                Temperature n ->
+                    plr |> Plant.setTemperature n
 
                 Grow n ->
                     plr |> Plant.grow n
@@ -200,10 +208,43 @@ viewDeck deck =
 
 viewPlayer : Player -> Html msg
 viewPlayer player =
+    let
+        temp t =
+            if t < 0 then
+                "❄️"
+
+            else if t < 40 then
+                "😎"
+
+            else
+                "🔥"
+
+        light l =
+            if l < 5 then
+                "🌙"
+
+            else if l < 20 then
+                "☁️"
+
+            else if l < 40 then
+                "⛅"
+
+            else if l < 60 then
+                "🌤️"
+
+            else
+                "☀️"
+    in
     div [ Html.Attributes.id "player" ]
         [ h1 [] [ text ("Plant " ++ String.fromInt (round player.growth) ++ "/100") ]
-        , p [] [ text ("💧 " ++ String.fromFloat player.water) ]
-        , p [] [ text ("💩 " ++ String.fromFloat player.fertilizer) ]
+        , ul []
+            [ li [] [ text ("💧 " ++ String.fromFloat player.water) ]
+            , li [] [ text ("💩 " ++ String.fromFloat player.fertilizer) ]
+            ]
+        , ul []
+            [ li [] [ text (light player.light) ]
+            , li [] [ text (temp player.temperature) ]
+            ]
         ]
 
 

@@ -51,6 +51,13 @@ body {
   font-size: 2rem;
 }
 
+#player ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
 .deck {
   margin: 3rem;
 }
