@@ -33,8 +33,16 @@ If we need more cards than available in draw pile, shuffle discard pile and add 
 draw : Int -> Deck c -> Deck c
 draw cards deck =
     if List.length deck.drawPile < cards then
+        let
+            newDraw =
+                deck.drawPile ++ shuffle deck.discardPile
+        in
         -- If we do not have enough cards in draw pile, add discard pile to draw pile and draw
-        addDiscardToDraw deck |> draw cards
+        { deck
+            | drawPile = newDraw |> List.drop cards
+            , discardPile = []
+            , hand = List.take cards newDraw ++ deck.hand
+        }
 
     else
         -- Add cards from draw pile to hand

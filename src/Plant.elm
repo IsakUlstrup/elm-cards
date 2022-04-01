@@ -33,11 +33,11 @@ fertilize amount plant =
 -}
 grow : Plant -> Plant
 grow plant =
-    if plant.water > 10 && plant.fertilizer > 10 then
+    if plant.water >= 1 && plant.fertilizer >= 1 then
         { plant
-            | growth = plant.growth + 2
-            , water = plant.water - 10
-            , fertilizer = plant.fertilizer - 10
+            | growth = plant.growth + 1
+            , water = plant.water - 1
+            , fertilizer = plant.fertilizer - 1
         }
 
     else

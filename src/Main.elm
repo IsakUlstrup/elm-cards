@@ -5,6 +5,7 @@ import Deck exposing (Deck)
 import Html exposing (Html, button, div, h1, p, text)
 import Html.Attributes
 import Html.Events
+import Plant exposing (Plant)
 import Random
 
 
@@ -16,29 +17,33 @@ type alias Card =
     { name : String
     , description : String
     , operation : CardOperation
-    , positive : Bool
     }
 
 
 type CardOperation
-    = Add Float
-    | Subtract Float
-    | Multiply Float
+    = Water Float
+    | Fertilize Float
+    | Grow
 
 
-addCard : Float -> Card
-addCard n =
-    Card "➕" ("+" ++ String.fromFloat n) (Add n) True
+rainCard : Card
+rainCard =
+    Card "🌧️" "It's raining, add water to plant" (Water 1)
 
 
-subtractCard : Float -> Card
-subtractCard n =
-    Card "➖" ("-" ++ String.fromFloat n) (Subtract n) False
+droughtCard : Card
+droughtCard =
+    Card "☀️" "It's super hot, water evaporates" (Water -1)
 
 
-multiplyCard : Bool -> Float -> Card
-multiplyCard positive n =
-    Card "✖️" ("*" ++ String.fromFloat n) (Multiply n) positive
+cowCard : Card
+cowCard =
+    Card "🐄" "A cow passes by and poops everywhere" (Fertilize 2)
+
+
+passTimeCard : Card
+passTimeCard =
+    Card "⏳" "Time passes" Grow
 
 
 
@@ -46,20 +51,20 @@ multiplyCard positive n =
 
 
 type alias Player =
-    Float
+    Plant
 
 
 applyCard : Card -> Player -> Player
 applyCard card player =
     case card.operation of
-        Add n ->
-            player + n
+        Water n ->
+            player |> Plant.water n
 
-        Subtract n ->
-            player - n
+        Fertilize n ->
+            player |> Plant.fertilize n
 
-        Multiply n ->
-            player * n
+        Grow ->
+            player |> Plant.grow
 
 
 
@@ -68,24 +73,12 @@ applyCard card player =
 
 environmentCards : List Card
 environmentCards =
-    [ subtractCard 1
-    , subtractCard 2
-    , subtractCard 3
-    , multiplyCard False 0.9
-    , multiplyCard False 0.8
-    , multiplyCard False 0.7
-    ]
+    [ droughtCard, passTimeCard, droughtCard, passTimeCard, droughtCard, droughtCard, droughtCard, passTimeCard ]
 
 
 playerCards : List Card
 playerCards =
-    [ addCard 1
-    , addCard 2
-    , addCard 3
-    , multiplyCard True 1.1
-    , multiplyCard True 1.2
-    , multiplyCard True 2
-    ]
+    [ rainCard, cowCard, rainCard, rainCard, cowCard, cowCard ]
 
 
 type alias Model =
@@ -103,7 +96,7 @@ init =
         , Deck.new "Environment" environmentCards
         ]
         0
-        0
+        Plant.new
         (Random.initialSeed 42)
         |> newDeckSelection
         |> activeDeckDraw
@@ -174,18 +167,29 @@ viewCard card =
 
 viewDeck : Deck Card -> Html Msg
 viewDeck deck =
+    let
+        hand =
+            if List.length deck.hand > 0 then
+                div [ Html.Attributes.class "hand" ] (List.map viewCard deck.hand)
+
+            else
+                div [ Html.Attributes.class "hand" ] [ text "no cards" ]
+    in
     div [ Html.Attributes.class "deck" ]
-        [ p [] [ text ("deck: " ++ deck.name) ]
+        [ hand
+        , p [] [ text ("deck: " ++ deck.name) ]
         , p [] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile)) ]
         , p [] [ text ("discard: " ++ String.fromInt (List.length deck.discardPile)) ]
-        , div [ Html.Attributes.class "hand" ] (List.map viewCard deck.hand)
         ]
 
 
 viewPlayer : Player -> Html msg
 viewPlayer player =
     div [ Html.Attributes.id "player" ]
-        [ h1 [ Html.Attributes.id "player" ] [ text (String.fromFloat player) ]
+        [ h1 [] [ text "Plant" ]
+        , p [] [ text ("water: " ++ String.fromFloat player.water) ]
+        , p [] [ text ("fertilizer: " ++ String.fromFloat player.fertilizer) ]
+        , p [] [ text ("growth: " ++ String.fromFloat player.growth) ]
         ]
 
 

@@ -40,12 +40,16 @@ body {
 
 #player {
   animation: pop 0.4s none;
-  margin-bottom: 15rem;
+}
+
+.deck {
+  margin: 3rem 0;
 }
 
 .deck .hand {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2rem;
 }
 
 .card {
@@ -56,6 +60,10 @@ body {
   min-width: 5rem;
   transition: transform 0.3s ease-out;
   cursor: pointer;
+}
+
+.card h1 {
+  font-size: 8rem;
 }
 
 .card:hover {
