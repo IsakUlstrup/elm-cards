@@ -9,19 +9,18 @@
   height: inherit;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   text-align: center;
   color: #293c4b;
   background-color: #262626;
   color: white;
-  padding: 2rem;
-}
-
-#card-selection {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
 }
 
 @keyframes pop {
@@ -38,12 +37,21 @@ body {
   }
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  overflow: hidden;
+}
+
 #player {
   animation: pop 0.4s none;
+  padding: 3%;
 }
 
 .deck {
-  margin: 3rem 0;
+  margin: 3rem;
 }
 
 .deck .hand {
@@ -56,14 +64,15 @@ body {
   border: 0.1rem solid #262626;
   border-radius: 0.3rem;
   padding: 1rem;
-  width: 15%;
+  width: 25%;
   min-width: 5rem;
+  max-width: 20rem;
   transition: transform 0.3s ease-out;
   cursor: pointer;
 }
 
 .card h1 {
-  font-size: 8rem;
+  font-size: 8vw;
 }
 
 .card:hover {

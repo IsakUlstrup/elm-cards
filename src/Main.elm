@@ -16,34 +16,44 @@ import Random
 type alias Card =
     { name : String
     , description : String
-    , operation : CardOperation
+    , operations : List CardOperation
     }
 
 
 type CardOperation
     = Water Float
     | Fertilize Float
-    | Grow
+    | Grow Float
 
 
 rainCard : Card
 rainCard =
-    Card "🌧️" "It's raining, add water to plant" (Water 1)
+    Card "🌧️" "It's raining, water plant" [ Water 1 ]
 
 
 droughtCard : Card
 droughtCard =
-    Card "☀️" "It's super hot, water evaporates" (Water -1)
+    Card "☀️" "It's super hot, water evaporates" [ Water -1 ]
 
 
 cowCard : Card
 cowCard =
-    Card "🐄" "A cow passes by and poops everywhere" (Fertilize 2)
+    Card "🐄" "A cow passes by and poops everywhere" [ Fertilize 2 ]
+
+
+monsoonCard : Card
+monsoonCard =
+    Card "⛈️" "Oh no! A monsoon!, lots of water dissolves som fertilizer" [ Water 5, Fertilize -2 ]
+
+
+pandaCard : Card
+pandaCard =
+    Card "🐼" "A panda nibbles on your plant before falling asleep" [ Grow -1 ]
 
 
 passTimeCard : Card
 passTimeCard =
-    Card "⏳" "Time passes" Grow
+    Card "⏳" "Time passes" [ Grow 1 ]
 
 
 
@@ -56,15 +66,20 @@ type alias Player =
 
 applyCard : Card -> Player -> Player
 applyCard card player =
-    case card.operation of
-        Water n ->
-            player |> Plant.water n
+    let
+        applyOperation : CardOperation -> Player -> Player
+        applyOperation op plr =
+            case op of
+                Water n ->
+                    plr |> Plant.water n
 
-        Fertilize n ->
-            player |> Plant.fertilize n
+                Fertilize n ->
+                    plr |> Plant.fertilize n
 
-        Grow ->
-            player |> Plant.grow
+                Grow n ->
+                    plr |> Plant.grow n
+    in
+    List.foldr applyOperation player card.operations
 
 
 
@@ -73,7 +88,7 @@ applyCard card player =
 
 environmentCards : List Card
 environmentCards =
-    [ droughtCard, passTimeCard, droughtCard, passTimeCard, droughtCard, droughtCard, droughtCard, passTimeCard ]
+    [ droughtCard, passTimeCard, droughtCard, passTimeCard, droughtCard, monsoonCard, pandaCard, droughtCard, droughtCard, passTimeCard, monsoonCard ]
 
 
 playerCards : List Card

@@ -19,23 +19,23 @@ new =
 -}
 water : Float -> Plant -> Plant
 water amount plant =
-    { plant | water = plant.water + amount }
+    { plant | water = max 0 plant.water + amount }
 
 
 {-| Fertilize plant
 -}
 fertilize : Float -> Plant -> Plant
 fertilize amount plant =
-    { plant | fertilizer = plant.fertilizer + amount }
+    { plant | fertilizer = max 0 plant.fertilizer + amount }
 
 
 {-| Grow plant. Grow amount is based on supply of water/fertilizer
 -}
-grow : Plant -> Plant
-grow plant =
+grow : Float -> Plant -> Plant
+grow amount plant =
     if plant.water >= 1 && plant.fertilizer >= 1 then
         { plant
-            | growth = plant.growth + 1
+            | growth = plant.growth + amount
             , water = plant.water - 1
             , fertilizer = plant.fertilizer - 1
         }
