@@ -1,4 +1,6 @@
-module Deck exposing (Deck, addDiscardToDraw, discardDraw, discardHand, draw, new)
+module Deck exposing (Deck, addDiscardToDraw, discardDraw, discardHand, draw, new, randomDeck)
+
+import Random
 
 
 type alias Deck c =
@@ -67,3 +69,11 @@ This is just the discardHand and draw functions combined
 discardDraw : Int -> Deck c -> Deck c
 discardDraw cards deck =
     deck |> discardHand |> draw cards
+
+
+{-| Given a list of decks, select one at random
+-}
+randomDeck : List (Deck c) -> Random.Generator (Maybe (Deck c))
+randomDeck decks =
+    Random.int 0 (List.length decks - 1)
+        |> Random.andThen (\index -> List.drop index decks |> List.head |> Random.constant)

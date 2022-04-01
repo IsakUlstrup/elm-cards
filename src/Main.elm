@@ -1,6 +1,7 @@
 module Main exposing (..)
 
 import Browser
+import Deck exposing (Deck)
 import Html exposing (Html, button, div, h1, p, text)
 import Html.Attributes
 import Html.Events
@@ -65,8 +66,8 @@ applyCard card player =
 ---- MODEL ----
 
 
-enemyDeck : List Card
-enemyDeck =
+environmentCards : List Card
+environmentCards =
     [ subtractCard 1
     , subtractCard 2
     , subtractCard 3
@@ -76,8 +77,8 @@ enemyDeck =
     ]
 
 
-playerDeck : List Card
-playerDeck =
+playerCards : List Card
+playerCards =
     [ addCard 1
     , addCard 2
     , addCard 3
@@ -87,39 +88,9 @@ playerDeck =
     ]
 
 
-randomListItem : List a -> Random.Generator (Maybe a)
-randomListItem xs =
-    Random.int 0 (List.length xs - 1)
-        |> Random.andThen (\index -> List.drop index xs |> List.head |> Random.constant)
-
-
-randomCards : Int -> List Card -> List Card -> Random.Generator (List (Maybe Card))
-randomCards numCards deck0 deck1 =
-    randomListItem [ deck0, deck1 ]
-        |> Random.andThen
-            (\deck ->
-                case deck of
-                    Just d ->
-                        Random.list numCards (randomListItem d)
-
-                    Nothing ->
-                        Random.constant []
-            )
-
-
-cardSelection : Random.Seed -> List Card -> List Card -> ( List Card, Random.Seed )
-cardSelection seed enemyCards playerCards =
-    let
-        ( maybeCards, s ) =
-            Random.step (randomCards 3 enemyCards playerCards) seed
-    in
-    ( List.filterMap identity maybeCards, s )
-
-
 type alias Model =
-    { enemyCards : List Card
-    , playerCards : List Card
-    , cardSelection : List Card
+    { decks : List (Deck Card)
+    , activeDeckIndex : Int
     , player : Player
     , seed : Random.Seed
     }
@@ -127,16 +98,15 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    let
-        ( cardSelect, seed ) =
-            cardSelection (Random.initialSeed 42) enemyDeck playerDeck
-    in
     ( Model
-        enemyDeck
-        playerDeck
-        cardSelect
+        [ Deck.new "Player deck" playerCards
+        , Deck.new "Environment" environmentCards
+        ]
         0
-        seed
+        0
+        (Random.initialSeed 42)
+        |> newDeckSelection
+        |> activeDeckDraw
     , Cmd.none
     )
 
@@ -149,20 +119,45 @@ type Msg
     = SelectCard Card
 
 
-newCardSelection : Model -> Model
-newCardSelection model =
+{-| Select index of random deck from list
+-}
+randomDeckIndex : List (Deck Card) -> Random.Generator Int
+randomDeckIndex decks =
+    Random.int 0 (List.length decks - 1)
+
+
+activeDeckDraw : Model -> Model
+activeDeckDraw model =
     let
-        ( cards, newSeed ) =
-            cardSelection model.seed enemyDeck playerDeck
+        -- If activeIndex matches index, draw cards from deck
+        drawHelper : Int -> Int -> Deck Card -> Deck Card
+        drawHelper activeIndex index deck =
+            if activeIndex == index then
+                deck |> Deck.discardDraw 3
+
+            else
+                deck
     in
-    { model | cardSelection = cards, seed = newSeed }
+    { model | decks = List.indexedMap (drawHelper model.activeDeckIndex) model.decks }
+
+
+newDeckSelection : Model -> Model
+newDeckSelection model =
+    let
+        ( deckIndex, seed ) =
+            Random.step (randomDeckIndex model.decks) model.seed
+    in
+    { model
+        | seed = seed
+        , activeDeckIndex = deckIndex
+    }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SelectCard card ->
-            ( { model | player = applyCard card model.player } |> newCardSelection, Cmd.none )
+            ( { model | player = applyCard card model.player } |> newDeckSelection |> activeDeckDraw, Cmd.none )
 
 
 
@@ -171,17 +166,19 @@ update msg model =
 
 viewCard : Card -> Html Msg
 viewCard card =
-    let
-        positiveClass =
-            if card.positive then
-                Html.Attributes.class "positive"
-
-            else
-                Html.Attributes.class "negative"
-    in
-    button [ Html.Events.onClick (SelectCard card), Html.Attributes.class "card", positiveClass ]
+    button [ Html.Events.onClick (SelectCard card), Html.Attributes.class "card" ]
         [ h1 [] [ text card.name ]
         , p [] [ text card.description ]
+        ]
+
+
+viewDeck : Deck Card -> Html Msg
+viewDeck deck =
+    div [ Html.Attributes.class "deck" ]
+        [ p [] [ text ("deck: " ++ deck.name) ]
+        , p [] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile)) ]
+        , p [] [ text ("discard: " ++ String.fromInt (List.length deck.discardPile)) ]
+        , div [ Html.Attributes.class "hand" ] (List.map viewCard deck.hand)
         ]
 
 
@@ -192,11 +189,24 @@ viewPlayer player =
         ]
 
 
+isActiveDeck : Int -> Int -> Deck Card -> Maybe (Deck Card)
+isActiveDeck activeIndex index deck =
+    if activeIndex == index then
+        Just deck
+
+    else
+        Nothing
+
+
 view : Model -> Html Msg
 view model =
     div [ Html.Attributes.id "app" ]
         [ viewPlayer model.player
-        , div [ Html.Attributes.id "card-selection" ] (List.map viewCard model.cardSelection)
+        , div []
+            (List.indexedMap (isActiveDeck model.activeDeckIndex) model.decks
+                |> List.filterMap identity
+                |> List.map viewDeck
+            )
         ]
 
 
