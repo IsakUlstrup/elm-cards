@@ -77,15 +77,16 @@ body {
   max-width: 20rem;
   transition: transform 0.3s ease-out;
   cursor: pointer;
+  background: linear-gradient(#fff, #aaa);
 }
 
 .card h1 {
   font-size: 8vw;
 }
 
-.card:hover {
+/* .card:hover {
   transform: scale(1.1);
-}
+} */
 
 .card:active {
   transform: scale(2);
