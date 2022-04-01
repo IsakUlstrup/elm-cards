@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Deck exposing (Deck)
-import Html exposing (Html, button, div, h1, li, p, text, ul)
+import Html exposing (Html, button, div, h1, h3, li, p, text, ul)
 import Html.Attributes
 import Html.Events
 import Plant exposing (Plant)
@@ -199,10 +199,9 @@ viewDeck deck =
                 div [ Html.Attributes.class "hand" ] [ text "no cards" ]
     in
     div [ Html.Attributes.class "deck" ]
-        [ hand
-        , p [] [ text ("deck: " ++ deck.name) ]
-        , p [] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile)) ]
-        , p [] [ text ("discard: " ++ String.fromInt (List.length deck.discardPile)) ]
+        [ h3 [] [ text deck.name ]
+        , hand
+        , p [ Html.Attributes.class "deck-meta" ] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile) ++ ", discard: " ++ String.fromInt (List.length deck.discardPile)) ]
         ]
 
 

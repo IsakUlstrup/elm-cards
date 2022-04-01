@@ -16,7 +16,7 @@
 }
 
 body {
-  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Helvetica', 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   text-align: center;
   color: #293c4b;
   background-color: #262626;
@@ -59,13 +59,18 @@ body {
 }
 
 .deck {
-  margin: 3rem;
+  margin: 3%;
 }
 
 .deck .hand {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
+}
+
+.deck .deck-meta {
+  color: #808080;
+  font-weight: lighter;
 }
 
 .card {
@@ -89,5 +94,5 @@ body {
 } */
 
 .card:active {
-  transform: scale(2);
+  transform: scale(1.1);
 }
