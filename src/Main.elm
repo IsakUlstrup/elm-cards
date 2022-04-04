@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Deck exposing (Deck)
-import Html exposing (Html, button, div, h1, h3, li, p, text, ul)
+import Html exposing (Attribute, Html, button, div, h1, li, p, text, ul)
 import Html.Attributes
 import Html.Events
 import Plant exposing (Plant)
@@ -104,9 +104,16 @@ playerCards =
     [ rainCard, cowCard, rainCard, rainCard, cowCard, cowCard ]
 
 
+type HandState
+    = Init
+    | Draw (Deck Card)
+    | Select Card (Deck Card)
+    | Play Card (Deck Card)
+
+
 type alias Model =
     { decks : List (Deck Card)
-    , activeDeckIndex : Int
+    , handState : HandState
     , player : Player
     , seed : Random.Seed
     }
@@ -118,11 +125,9 @@ init =
         [ Deck.new "Player" playerCards
         , Deck.new "Environment" environmentCards
         ]
-        0
+        Init
         Plant.new
         (Random.initialSeed 42)
-        |> newDeckSelection
-        |> activeDeckDraw
     , Cmd.none
     )
 
@@ -132,77 +137,40 @@ init =
 
 
 type Msg
-    = SelectCard Card
+    = DrawCards
+    | SelectCard Card (Deck Card)
+    | PlayCard Card (Deck Card)
 
 
-{-| Select index of random deck from list
--}
-randomDeckIndex : List (Deck Card) -> Random.Generator Int
-randomDeckIndex decks =
-    Random.int 0 (List.length decks - 1)
-
-
-activeDeckDraw : Model -> Model
-activeDeckDraw model =
-    let
-        -- If activeIndex matches index, draw cards from deck
-        drawHelper : Int -> Int -> Deck Card -> Deck Card
-        drawHelper activeIndex index deck =
-            if activeIndex == index then
-                deck |> Deck.discardDraw 3
-
-            else
-                deck
-    in
-    { model | decks = List.indexedMap (drawHelper model.activeDeckIndex) model.decks }
-
-
-newDeckSelection : Model -> Model
-newDeckSelection model =
-    let
-        ( deckIndex, seed ) =
-            Random.step (randomDeckIndex model.decks) model.seed
-    in
-    { model
-        | seed = seed
-        , activeDeckIndex = deckIndex
-    }
+maybeDraw : Deck Card -> Maybe (Deck Card)
+maybeDraw deck =
+    Just (Deck.discardDraw 3 deck)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        SelectCard card ->
-            ( { model | player = applyCard card model.player } |> newDeckSelection |> activeDeckDraw, Cmd.none )
+        DrawCards ->
+            let
+                deck =
+                    List.head model.decks |> Maybe.andThen maybeDraw
+            in
+            case deck of
+                Just d ->
+                    ( { model | handState = Draw d }, Cmd.none )
+
+                Nothing ->
+                    ( model, Cmd.none )
+
+        SelectCard card deck ->
+            ( { model | handState = Select card deck }, Cmd.none )
+
+        PlayCard card deck ->
+            ( { model | handState = Play card deck }, Cmd.none )
 
 
 
 ---- VIEW ----
-
-
-viewCard : Card -> Html Msg
-viewCard card =
-    button [ Html.Events.onClick (SelectCard card), Html.Attributes.class "card" ]
-        [ h1 [] [ text card.name ]
-        , p [] [ text card.description ]
-        ]
-
-
-viewDeck : Deck Card -> Html Msg
-viewDeck deck =
-    let
-        hand =
-            if List.length deck.hand > 0 then
-                div [ Html.Attributes.class "hand" ] (List.map viewCard deck.hand)
-
-            else
-                div [ Html.Attributes.class "hand" ] [ text "no cards" ]
-    in
-    div [ Html.Attributes.class "deck" ]
-        [ h3 [] [ text ("Deck: " ++ deck.name) ]
-        , hand
-        , p [ Html.Attributes.class "deck-meta" ] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile) ++ ", discard: " ++ String.fromInt (List.length deck.discardPile)) ]
-        ]
 
 
 viewPlayer : Player -> Html msg
@@ -247,24 +215,83 @@ viewPlayer player =
         ]
 
 
-isActiveDeck : Int -> Int -> Deck Card -> Maybe (Deck Card)
-isActiveDeck activeIndex index deck =
-    if activeIndex == index then
-        Just deck
+viewCard : List (Attribute Msg) -> Deck Card -> Card -> Html Msg
+viewCard attrs deck card =
+    div attrs
+        [ button [ Html.Events.onClick (SelectCard card deck) ]
+            [ h1 [] [ text card.name ]
+            , p [] [ text card.description ]
+            ]
+        , button [ Html.Events.onClick (PlayCard card deck), Html.Attributes.class "play-button" ] [ text "play" ]
+        ]
 
-    else
-        Nothing
+
+viewCardWithState : HandState -> Card -> Html Msg
+viewCardWithState state card =
+    case state of
+        Init ->
+            div [] [ button [ Html.Events.onClick DrawCards ] [ text "Draw cards" ] ]
+
+        Draw deck ->
+            viewCard [ Html.Attributes.class "card", Html.Attributes.class "enter" ] deck card
+
+        Select c deck ->
+            if c == card then
+                viewCard [ Html.Attributes.class "card", Html.Attributes.class "selected" ] deck card
+
+            else
+                viewCard [ Html.Attributes.class "card" ] deck card
+
+        Play c deck ->
+            if c == card then
+                viewCard [ Html.Attributes.class "card", Html.Attributes.class "played", Html.Attributes.class "selected" ] deck card
+
+            else
+                viewCard [ Html.Attributes.class "card", Html.Attributes.class "leave" ] deck card
+
+
+viewHandState : Model -> Html Msg
+viewHandState model =
+    case model.handState of
+        Init ->
+            div []
+                [ div [ Html.Attributes.class "hand-actions" ]
+                    [ button [ Html.Events.onClick DrawCards ] [ text "Draw cards" ]
+                    ]
+                , div
+                    [ Html.Attributes.class "hand" ]
+                    []
+                ]
+
+        Draw deck ->
+            div []
+                [ div [ Html.Attributes.class "hand-actions" ] []
+                , div [ Html.Attributes.class "hand" ] (List.map (viewCardWithState model.handState) deck.hand)
+                , p [ Html.Attributes.class "deck-meta" ] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile) ++ ", discard: " ++ String.fromInt (List.length deck.discardPile)) ]
+                ]
+
+        Select _ deck ->
+            div []
+                [ div [ Html.Attributes.class "hand-actions" ] []
+                , div [ Html.Attributes.class "hand" ] (List.map (viewCardWithState model.handState) deck.hand)
+                , p [ Html.Attributes.class "deck-meta" ] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile) ++ ", discard: " ++ String.fromInt (List.length deck.discardPile)) ]
+                ]
+
+        Play _ deck ->
+            div []
+                [ div [ Html.Attributes.class "hand-actions" ]
+                    [ button [ Html.Events.onClick DrawCards ] [ text "Draw cards" ]
+                    ]
+                , div [ Html.Attributes.class "hand" ] (List.map (viewCardWithState model.handState) deck.hand)
+                , p [ Html.Attributes.class "deck-meta" ] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile) ++ ", discard: " ++ String.fromInt (List.length deck.discardPile)) ]
+                ]
 
 
 view : Model -> Html Msg
 view model =
     div [ Html.Attributes.id "app" ]
         [ viewPlayer model.player
-        , div []
-            (List.indexedMap (isActiveDeck model.activeDeckIndex) model.decks
-                |> List.filterMap identity
-                |> List.map viewDeck
-            )
+        , viewHandState model
         ]
 
 
