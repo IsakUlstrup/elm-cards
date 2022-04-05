@@ -58,6 +58,11 @@ body {
   }
 }
 
+@keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
 #app {
   display: flex;
   flex-direction: column;
@@ -97,7 +102,6 @@ body {
   justify-content: center;
   gap: 3%;
   margin: 2rem 0;
-  height: 20rem;
 }
 
 .deck-meta {
@@ -125,6 +129,11 @@ body {
 .card .play-button {
   opacity: 0;
 }
+
+.card .draw-cards-button {
+  animation: fade-in 0.3s ease-out 0.5s;
+}
+
 
 .card.selected {
   border: 0.3rem solid magenta;
