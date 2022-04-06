@@ -58,23 +58,18 @@ type alias Model =
     }
 
 
-dummyCards : Int -> ( Int, List String )
-dummyCards index =
-    ( index, [ "Card 1", "Card 2", "Card 3" ] )
-
-
 init : ( Model, Cmd Msg )
 init =
     ( Model
         [ Cards.playerDeck
         , Cards.environmentDeck
         ]
-        [ dummyCards 1
-        , ( 0, [] )
+        [ ( 0, [] )
         ]
-        2
+        1
         Engine.Plant.new
         (Random.initialSeed 42)
+        |> newHand
     , Cmd.none
     )
 
@@ -89,6 +84,11 @@ type Msg
 
 newHand : Model -> Model
 newHand model =
+    let
+        dummyCards : Int -> ( Int, List String )
+        dummyCards index =
+            ( index, [ "Card 1", "Card 2", "Card 3" ] )
+    in
     { model
         | hands = List.take 2 (dummyCards model.index :: model.hands)
         , index = model.index + 1
