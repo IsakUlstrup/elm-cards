@@ -75,7 +75,7 @@ body {
 }
 
 .hand-container {
-  flex: 0 1 30%;
+  flex: 0 1 20rem;
   display: flex;
   background: #262626;
   overflow-x: hidden;
