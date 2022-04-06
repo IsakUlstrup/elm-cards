@@ -97,11 +97,21 @@ type Msg
     = NextHand
 
 
+newHand : Model -> Model
+newHand model =
+    { model
+        | hands = List.take 2 (dummyCards model.index :: model.hands)
+        , index = model.index + 1
+    }
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NextHand ->
-            ( { model | hands = List.take 2 (dummyCards model.index :: model.hands), index = model.index + 1 }, Cmd.none )
+            ( newHand model
+            , Cmd.none
+            )
 
 
 
