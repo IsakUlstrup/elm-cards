@@ -106,14 +106,9 @@ playerCards =
     [ rainCard, passTimeCard, cowCard, passTimeCard, rainCard, rainCard, cowCard, cowCard ]
 
 
-type HandState
-    = Draw (Deck Card)
-    | Select Int (Deck Card)
-    | Play Int (Deck Card)
-
-
 type alias Model =
-    { hands : List ( Int, List String )
+    { decks : List (Deck Card)
+    , hands : List ( Int, List String )
     , index : Int
     , player : Player
     , seed : Random.Seed
@@ -123,6 +118,7 @@ type alias Model =
 init : ( Model, Cmd Msg )
 init =
     ( Model
+        [ Deck.new "Player" playerCards, Deck.new "Environment" environmentCards ]
         [ ( 1, [ "hei", "hei", "hei" ] ), ( 0, [] ) ]
         2
         Plant.new
@@ -137,11 +133,6 @@ init =
 
 type Msg
     = NextHand
-
-
-maybeDraw : Deck Card -> Maybe (Deck Card)
-maybeDraw deck =
-    Just (Deck.discardDraw 3 deck)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
