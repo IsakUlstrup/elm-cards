@@ -5,6 +5,8 @@ import Deck exposing (Deck)
 import Html exposing (Attribute, Html, button, div, h1, li, p, text, ul)
 import Html.Attributes
 import Html.Events
+import Html.Keyed
+import Html.Lazy
 import Plant exposing (Plant)
 import Random
 
@@ -105,15 +107,14 @@ playerCards =
 
 
 type HandState
-    = Init
-    | Draw (Deck Card)
-    | Select Int Card (Deck Card)
-    | Play Int Card (Deck Card)
+    = Draw (Deck Card)
+    | Select Int (Deck Card)
+    | Play Int (Deck Card)
 
 
 type alias Model =
-    { decks : List (Deck Card)
-    , handState : HandState
+    { hands : List ( Int, List String )
+    , index : Int
     , player : Player
     , seed : Random.Seed
     }
@@ -122,10 +123,8 @@ type alias Model =
 init : ( Model, Cmd Msg )
 init =
     ( Model
-        [ Deck.new "Player" playerCards
-        , Deck.new "Environment" environmentCards
-        ]
-        Init
+        [ ( 0, [ "hei" ] ) ]
+        1
         Plant.new
         (Random.initialSeed 42)
     , Cmd.none
@@ -137,9 +136,7 @@ init =
 
 
 type Msg
-    = DrawCards
-    | SelectCard Int Card (Deck Card)
-    | PlayCard Int Card (Deck Card)
+    = NextHand
 
 
 maybeDraw : Deck Card -> Maybe (Deck Card)
@@ -150,153 +147,38 @@ maybeDraw deck =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        DrawCards ->
-            let
-                ( deck, decks ) =
-                    case model.decks of
-                        [] ->
-                            ( Nothing, [] )
-
-                        d :: ds ->
-                            ( Just (Deck.discardDraw 3 d), ds )
-            in
-            case deck of
-                Just d ->
-                    ( { model | handState = Draw d, decks = decks }, Cmd.none )
-
-                Nothing ->
-                    ( model, Cmd.none )
-
-        SelectCard index card deck ->
-            ( { model | handState = Select index card deck }, Cmd.none )
-
-        PlayCard index card deck ->
-            ( { model | handState = Play index card deck, decks = Deck.discardHand deck :: model.decks, player = applyCard card model.player }, Cmd.none )
+        NextHand ->
+            ( { model | hands = List.take 2 (( model.index, [ "hei", "hei", "hei" ] ) :: model.hands), index = model.index + 1 }, Cmd.none )
 
 
 
 ---- VIEW ----
 
 
-viewPlayer : Player -> Html msg
-viewPlayer player =
+viewHands : List ( Int, List String ) -> Html msg
+viewHands hands =
+    Html.Keyed.node "ul" [ Html.Attributes.class "hands" ] (List.map viewKeyedHand hands)
+
+
+viewKeyedHand : ( Int, List String ) -> ( String, Html msg )
+viewKeyedHand ( i, hand ) =
+    ( String.fromInt i, Html.Lazy.lazy viewHand ( i, hand ) )
+
+
+viewHand : ( Int, List String ) -> Html msg
+viewHand ( i, strings ) =
     let
-        temp t =
-            if t < 0 then
-                "❄️"
-
-            else if t < 40 then
-                "😎"
-
-            else
-                "🔥"
-
-        light l =
-            if l < 5 then
-                "🌙"
-
-            else if l < 20 then
-                "☁️"
-
-            else if l < 40 then
-                "⛅"
-
-            else if l < 60 then
-                "🌤️"
-
-            else
-                "☀️"
+        card c =
+            p [] [ text (String.fromInt i ++ c) ]
     in
-    div [ Html.Attributes.id "player" ]
-        [ h1 [] [ text ("Plant " ++ String.fromInt (round player.growth) ++ "/100") ]
-        , ul []
-            [ li [] [ text ("💧 " ++ String.fromFloat player.water) ]
-            , li [] [ text ("💩 " ++ String.fromFloat player.fertilizer) ]
-            ]
-        , ul []
-            [ li [] [ text (light player.light) ]
-            , li [] [ text (temp player.temperature) ]
-            ]
-        ]
-
-
-viewCard : List (Attribute Msg) -> Deck Card -> Int -> Card -> Html Msg
-viewCard attrs deck index card =
-    div attrs
-        [ button [ Html.Events.onClick (SelectCard index card deck) ]
-            [ h1 [] [ text card.name ]
-            , p [] [ text card.description ]
-            ]
-        , button [ Html.Events.onClick (PlayCard index card deck), Html.Attributes.class "play-button" ] [ text "play" ]
-        ]
-
-
-viewCardWithState : HandState -> Int -> Card -> Html Msg
-viewCardWithState state index card =
-    case state of
-        Init ->
-            div [] [ button [ Html.Events.onClick DrawCards ] [ text "Draw cards" ] ]
-
-        Draw deck ->
-            viewCard [ Html.Attributes.class "card", Html.Attributes.class "enter" ] deck index card
-
-        Select i _ deck ->
-            if i == index then
-                viewCard [ Html.Attributes.class "card", Html.Attributes.class "selected" ] deck index card
-
-            else
-                viewCard [ Html.Attributes.class "card" ] deck index card
-
-        Play i _ deck ->
-            if i == index then
-                viewCard [ Html.Attributes.class "card", Html.Attributes.class "played", Html.Attributes.class "selected" ] deck index card
-
-            else
-                viewCard [ Html.Attributes.class "card", Html.Attributes.class "leave" ] deck index card
-
-
-viewHandState : Model -> Html Msg
-viewHandState model =
-    case model.handState of
-        Init ->
-            div []
-                [ div [ Html.Attributes.class "hand-actions" ]
-                    [ button [ Html.Events.onClick DrawCards, Html.Attributes.class "draw-cards-button" ] [ text "Draw cards" ]
-                    ]
-                , div
-                    [ Html.Attributes.class "hand" ]
-                    []
-                ]
-
-        Draw deck ->
-            div []
-                [ div [ Html.Attributes.class "hand-actions" ] []
-                , div [ Html.Attributes.class "hand" ] (List.indexedMap (viewCardWithState model.handState) deck.hand)
-                , p [ Html.Attributes.class "deck-meta" ] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile) ++ ", discard: " ++ String.fromInt (List.length deck.discardPile)) ]
-                ]
-
-        Select _ _ deck ->
-            div []
-                [ div [ Html.Attributes.class "hand-actions" ] []
-                , div [ Html.Attributes.class "hand" ] (List.indexedMap (viewCardWithState model.handState) deck.hand)
-                , p [ Html.Attributes.class "deck-meta" ] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile) ++ ", discard: " ++ String.fromInt (List.length deck.discardPile)) ]
-                ]
-
-        Play _ _ deck ->
-            div []
-                [ div [ Html.Attributes.class "hand-actions" ]
-                    [ button [ Html.Events.onClick DrawCards, Html.Attributes.class "draw-cards-button" ] [ text "Draw cards" ]
-                    ]
-                , div [ Html.Attributes.class "hand" ] (List.indexedMap (viewCardWithState model.handState) deck.hand)
-                , p [ Html.Attributes.class "deck-meta" ] [ text ("draw: " ++ String.fromInt (List.length deck.drawPile) ++ ", discard: " ++ String.fromInt (List.length deck.discardPile)) ]
-                ]
+    li [ Html.Attributes.class "hand" ] (List.map card strings)
 
 
 view : Model -> Html Msg
 view model =
     div [ Html.Attributes.id "app" ]
-        [ viewPlayer model.player
-        , viewHandState model
+        [ button [ Html.Events.onClick NextHand ] [ text "next hand" ]
+        , viewHands model.hands
         ]
 
 
