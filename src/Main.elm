@@ -1,66 +1,20 @@
 module Main exposing (..)
 
 import Browser
-import Deck exposing (Deck)
+import Content.Cards as Cards
+import Engine.Card exposing (Card, CardOperation(..))
+import Engine.Deck exposing (Deck)
+import Engine.Plant exposing (Plant)
 import Html exposing (Html, button, div, h3, li, p, section, text, ul)
 import Html.Attributes
 import Html.Events
 import Html.Keyed
 import Html.Lazy
-import Plant exposing (Plant)
 import Random
 
 
 
----- CARD ----
-
-
-type alias Card =
-    { name : String
-    , description : String
-    , operations : List CardOperation
-    }
-
-
-type CardOperation
-    = Water Float
-    | Fertilize Float
-    | Light Float
-    | Temperature Float
-    | Grow Float
-
-
-rainCard : Card
-rainCard =
-    Card "🌧️" "It's raining, water plant" [ Water 1, Light 40, Temperature 20 ]
-
-
-droughtCard : Card
-droughtCard =
-    Card "☀️" "It's super hot, water evaporates" [ Water -1, Light 80, Temperature 60 ]
-
-
-monsoonCard : Card
-monsoonCard =
-    Card "⛈️" "A monsoon!, lots of water" [ Water 5, Light 40, Temperature 30 ]
-
-
-cowCard : Card
-cowCard =
-    Card "🐄" "A cow passes by and poops everywhere" [ Fertilize 2 ]
-
-
-pandaCard : Card
-pandaCard =
-    Card "🐼" "A panda nibbles on your plant before falling asleep" [ Grow -1 ]
-
-
-passTimeCard : Card
-passTimeCard =
-    Card "⏳" "Time passes" [ Grow 1 ]
-
-
-
+---- CARDS ----
 ---- PLAYER ----
 
 
@@ -71,19 +25,19 @@ applyCard card plant =
         applyOperation op plr =
             case op of
                 Water n ->
-                    plr |> Plant.water n
+                    plr |> Engine.Plant.water n
 
                 Fertilize n ->
-                    plr |> Plant.fertilize n
+                    plr |> Engine.Plant.fertilize n
 
                 Light n ->
-                    plr |> Plant.setLight n
+                    plr |> Engine.Plant.setLight n
 
                 Temperature n ->
-                    plr |> Plant.setTemperature n
+                    plr |> Engine.Plant.setTemperature n
 
                 Grow n ->
-                    plr |> Plant.grow n
+                    plr |> Engine.Plant.grow n
     in
     List.foldr applyOperation plant card.operations
 
@@ -94,12 +48,12 @@ applyCard card plant =
 
 environmentCards : List Card
 environmentCards =
-    [ droughtCard, droughtCard, passTimeCard, droughtCard, monsoonCard, pandaCard, droughtCard, droughtCard, monsoonCard ]
+    [ Cards.droughtCard, Cards.droughtCard, Cards.passTimeCard, Cards.droughtCard, Cards.monsoonCard, Cards.pandaCard, Cards.droughtCard, Cards.droughtCard, Cards.monsoonCard ]
 
 
 playerCards : List Card
 playerCards =
-    [ rainCard, passTimeCard, cowCard, passTimeCard, rainCard, rainCard, cowCard, cowCard ]
+    [ Cards.rainCard, Cards.passTimeCard, Cards.cowCard, Cards.passTimeCard, Cards.rainCard, Cards.rainCard, Cards.cowCard, Cards.cowCard ]
 
 
 type alias Model =
@@ -114,10 +68,10 @@ type alias Model =
 init : ( Model, Cmd Msg )
 init =
     ( Model
-        [ Deck.new "Player" playerCards, Deck.new "Environment" environmentCards ]
+        [ Engine.Deck.new "Player" playerCards, Engine.Deck.new "Environment" environmentCards ]
         [ ( 1, [ "Card 1", "Card 2", "Card 3" ] ), ( 0, [] ) ]
         2
-        Plant.new
+        Engine.Plant.new
         (Random.initialSeed 42)
     , Cmd.none
     )

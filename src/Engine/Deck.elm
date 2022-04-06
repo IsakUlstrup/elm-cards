@@ -1,4 +1,4 @@
-module Deck exposing (Deck, addDiscardToDraw, discardDraw, discardHand, draw, new, randomDeck)
+module Engine.Deck exposing (Deck, addDiscardToDraw, discardDraw, discardHand, draw, new, randomDeck)
 
 import Random
 

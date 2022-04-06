@@ -1,4 +1,4 @@
-module Plant exposing (Plant, fertilize, grow, new, setLight, setTemperature, water)
+module Engine.Plant exposing (Plant, fertilize, grow, new, setLight, setTemperature, water)
 
 
 type alias Plant =
