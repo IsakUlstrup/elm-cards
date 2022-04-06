@@ -66,8 +66,8 @@ dummyCards index =
 init : ( Model, Cmd Msg )
 init =
     ( Model
-        [ Engine.Deck.new "Player" Cards.playerCards
-        , Engine.Deck.new "Environment" Cards.environmentCards
+        [ Cards.playerDeck
+        , Cards.environmentDeck
         ]
         [ dummyCards 1
         , ( 0, [] )

@@ -1,6 +1,7 @@
 module Content.Cards exposing (..)
 
 import Engine.Card exposing (Card, CardOperation(..))
+import Engine.Deck exposing (Deck)
 
 
 
@@ -41,11 +42,11 @@ passTimeCard =
 ---- DECKS ----
 
 
-environmentCards : List Card
-environmentCards =
-    [ droughtCard, droughtCard, passTimeCard, droughtCard, monsoonCard, pandaCard, droughtCard, droughtCard, monsoonCard ]
+environmentDeck : Deck Card
+environmentDeck =
+    Engine.Deck.new "Environment" [ droughtCard, droughtCard, passTimeCard, droughtCard, monsoonCard, pandaCard, droughtCard, droughtCard, monsoonCard ]
 
 
-playerCards : List Card
-playerCards =
-    [ rainCard, passTimeCard, cowCard, passTimeCard, rainCard, rainCard, cowCard, cowCard ]
+playerDeck : Deck Card
+playerDeck =
+    Engine.Deck.new "Player" [ rainCard, passTimeCard, cowCard, passTimeCard, rainCard, rainCard, cowCard, cowCard ]
