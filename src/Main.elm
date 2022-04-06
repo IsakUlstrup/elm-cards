@@ -45,16 +45,6 @@ applyCard card plant =
 ---- MODEL ----
 
 
-environmentCards : List Card
-environmentCards =
-    [ Cards.droughtCard, Cards.droughtCard, Cards.passTimeCard, Cards.droughtCard, Cards.monsoonCard, Cards.pandaCard, Cards.droughtCard, Cards.droughtCard, Cards.monsoonCard ]
-
-
-playerCards : List Card
-playerCards =
-    [ Cards.rainCard, Cards.passTimeCard, Cards.cowCard, Cards.passTimeCard, Cards.rainCard, Cards.rainCard, Cards.cowCard, Cards.cowCard ]
-
-
 type alias GameDeck =
     Deck Card
 
@@ -76,8 +66,8 @@ dummyCards index =
 init : ( Model, Cmd Msg )
 init =
     ( Model
-        [ Engine.Deck.new "Player" playerCards
-        , Engine.Deck.new "Environment" environmentCards
+        [ Engine.Deck.new "Player" Cards.playerCards
+        , Engine.Deck.new "Environment" Cards.environmentCards
         ]
         [ dummyCards 1
         , ( 0, [] )
@@ -131,6 +121,7 @@ viewKeyedHand ( i, hand ) =
 viewHand : ( Int, List String ) -> Html Msg
 viewHand ( i, strings ) =
     let
+        card : String -> Html Msg
         card c =
             li [ Html.Attributes.class "card" ]
                 [ h3 [] [ text c ]

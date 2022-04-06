@@ -3,6 +3,10 @@ module Content.Cards exposing (..)
 import Engine.Card exposing (Card, CardOperation(..))
 
 
+
+---- CARDS ----
+
+
 rainCard : Card
 rainCard =
     Engine.Card.new "🌧️" "It's raining, water plant" [ Water 1, Light 40, Temperature 20 ]
@@ -31,3 +35,17 @@ pandaCard =
 passTimeCard : Card
 passTimeCard =
     Engine.Card.new "⏳" "Time passes" [ Grow 1 ]
+
+
+
+---- DECKS ----
+
+
+environmentCards : List Card
+environmentCards =
+    [ droughtCard, droughtCard, passTimeCard, droughtCard, monsoonCard, pandaCard, droughtCard, droughtCard, monsoonCard ]
+
+
+playerCards : List Card
+playerCards =
+    [ rainCard, passTimeCard, cowCard, passTimeCard, rainCard, rainCard, cowCard, cowCard ]
