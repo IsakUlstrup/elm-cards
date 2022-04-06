@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Deck exposing (Deck)
-import Html exposing (Html, button, div, li, p, section, text, ul)
+import Html exposing (Html, button, div, h3, li, p, section, text, ul)
 import Html.Attributes
 import Html.Events
 import Html.Keyed
@@ -148,7 +148,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NextHand ->
-            ( { model | hands = List.take 2 (( model.index, [ "hei", "hei", "hei" ] ) :: model.hands), index = model.index + 1 }, Cmd.none )
+            ( { model | hands = List.take 2 (( model.index, [ "Card 1", "Card 2", "Card 3" ] ) :: model.hands), index = model.index + 1 }, Cmd.none )
 
 
 
@@ -170,8 +170,10 @@ viewHand ( i, strings ) =
     let
         card c =
             li [ Html.Attributes.class "card" ]
-                [ p [] [ text (String.fromInt i ++ " " ++ c) ]
-                , button [ Html.Events.onClick NextHand ] [ text "next hand" ]
+                [ h3 [] [ text c ]
+                , p [] [ text ("Hand #" ++ String.fromInt i) ]
+                , button [ Html.Events.onClick NextHand ] [ text "Play card" ]
+                , p [] [ text "Card description" ]
                 ]
     in
     ul [ Html.Attributes.class "hand" ] (List.map card strings)
