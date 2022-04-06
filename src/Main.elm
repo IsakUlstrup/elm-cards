@@ -64,14 +64,10 @@ passTimeCard =
 ---- PLAYER ----
 
 
-type alias Player =
-    Plant
-
-
-applyCard : Card -> Player -> Player
-applyCard card player =
+applyCard : Card -> Plant -> Plant
+applyCard card plant =
     let
-        applyOperation : CardOperation -> Player -> Player
+        applyOperation : CardOperation -> Plant -> Plant
         applyOperation op plr =
             case op of
                 Water n ->
@@ -89,7 +85,7 @@ applyCard card player =
                 Grow n ->
                     plr |> Plant.grow n
     in
-    List.foldr applyOperation player card.operations
+    List.foldr applyOperation plant card.operations
 
 
 
@@ -110,7 +106,7 @@ type alias Model =
     { decks : List (Deck Card)
     , hands : List ( Int, List String )
     , index : Int
-    , player : Player
+    , player : Plant
     , seed : Random.Seed
     }
 
@@ -119,7 +115,7 @@ init : ( Model, Cmd Msg )
 init =
     ( Model
         [ Deck.new "Player" playerCards, Deck.new "Environment" environmentCards ]
-        [ ( 1, [ "hei", "hei", "hei" ] ), ( 0, [] ) ]
+        [ ( 1, [ "Card 1", "Card 2", "Card 3" ] ), ( 0, [] ) ]
         2
         Plant.new
         (Random.initialSeed 42)
