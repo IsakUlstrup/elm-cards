@@ -95,13 +95,11 @@ newHand model =
     }
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         NextHand ->
-            ( newHand model
-            , Cmd.none
-            )
+            newHand model
 
 
 
@@ -152,6 +150,6 @@ main =
     Browser.element
         { view = view
         , init = \_ -> init
-        , update = update
+        , update = \msg model -> ( update msg model, Cmd.none )
         , subscriptions = always Sub.none
         }
