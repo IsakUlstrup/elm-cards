@@ -15,69 +15,109 @@
   box-sizing: border-box;
 }
 
+:root {
+  --card-transition-delay: 0.4s;
+  --card-transition-duration: 1s;
+}
+
 body {
   font-family: 'Helvetica', 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
-  text-align: center;
   color: #293c4b;
   background-color: #262626;
   color: white;
 }
 
-@keyframes pop {
+@keyframes expand {
   0% {
-    transform: scale(1);
+    flex: 0;
+    opacity: 0;
   }
 
-  80% {
-    transform: scale(1.5);
+  50% {
+    opacity: 1;
   }
 
   100% {
-    transform: scale(1);
+    flex: 1;
   }
 }
 
-@keyframes slide-in {
+@keyframes contract {
   0% {
-    transform: translate(-599%, 0);
+    flex: 1;
+    opacity: 1;
   }
 
-  100% {
-    transform: translate(0, 0);
-  }
-
-}
-
-@keyframes slide-out {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  100% {
-    transform: translate(599%, 0);
-  }
-}
-
-@keyframes fade-in {
-  0% {
+  50% {
     opacity: 0;
   }
 
   100% {
-    opacity: 1;
+    flex: 0;
+    opacity: 0;
   }
 }
 
-@keyframes expand {
-  0% {
-    flex: 0 1 0rem;
-  }
 
-  100% {
-    flex: 1 1 content;
-  }
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  overflow: hidden;
 }
 
+.hud {
+  flex: 0 1 content;
+  background: rgb(41, 78, 43);
+  padding: 2rem;
+}
+
+.hand-container {
+  flex: 0 1 30%;
+  display: flex;
+  background: #262626;
+  overflow-x: hidden;
+}
+
+.hand {
+  /* border: 1px solid red; */
+  padding: 3rem 0;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  gap: 3%;
+  list-style: none;
+  flex: 1;
+  animation-duration: var(--card-transition-duration);
+  animation-delay: var(--card-transition-delay);
+  animation-fill-mode: forwards;
+  animation-name: contract;
+}
+
+.hand:first-child {
+  flex: 0;
+  animation-name: expand;
+}
+
+.card {
+  flex: 20%;
+  min-width: 10rem;
+  max-width: 15rem;
+  padding: 2rem;
+  border: 0.4rem solid white;
+  border-radius: 0.7rem;
+  overflow: hidden;
+  background: linear-gradient(rgb(1, 107, 102), rgb(3, 33, 37));
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  border: 0.4rem solid rgb(226, 26, 233);
+  transform: scale(1.1) translate(0, -0.5rem) rotate(-3deg);
+}
+
+/* 
 .hands {
   display: flex;
   gap: 2rem;
@@ -97,13 +137,7 @@ body {
   overflow: hidden;
 }
 
-#app {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
-  overflow: hidden;
-}
+
 
 #player {
   animation: pop 0.4s none;
@@ -196,4 +230,4 @@ body {
 
 .card h1 {
   font-size: 8vw;
-}
+} */

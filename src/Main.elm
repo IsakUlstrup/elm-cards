@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Deck exposing (Deck)
-import Html exposing (Attribute, Html, button, div, h1, li, p, text, ul)
+import Html exposing (Html, button, div, li, p, section, text, ul)
 import Html.Attributes
 import Html.Events
 import Html.Keyed
@@ -123,8 +123,8 @@ type alias Model =
 init : ( Model, Cmd Msg )
 init =
     ( Model
-        [ ( 0, [ "hei" ] ) ]
-        1
+        [ ( 1, [ "hei", "hei", "hei" ] ), ( 0, [] ) ]
+        2
         Plant.new
         (Random.initialSeed 42)
     , Cmd.none
@@ -155,29 +155,34 @@ update msg model =
 ---- VIEW ----
 
 
-viewHands : List ( Int, List String ) -> Html msg
+viewHands : List ( Int, List String ) -> Html Msg
 viewHands hands =
-    Html.Keyed.node "ul" [ Html.Attributes.class "hands" ] (List.map viewKeyedHand hands)
+    Html.Keyed.node "section" [ Html.Attributes.class "hand-container" ] (List.map viewKeyedHand hands)
 
 
-viewKeyedHand : ( Int, List String ) -> ( String, Html msg )
+viewKeyedHand : ( Int, List String ) -> ( String, Html Msg )
 viewKeyedHand ( i, hand ) =
     ( String.fromInt i, Html.Lazy.lazy viewHand ( i, hand ) )
 
 
-viewHand : ( Int, List String ) -> Html msg
+viewHand : ( Int, List String ) -> Html Msg
 viewHand ( i, strings ) =
     let
         card c =
-            p [] [ text (String.fromInt i ++ c) ]
+            li [ Html.Attributes.class "card" ]
+                [ p [] [ text (String.fromInt i ++ " " ++ c) ]
+                , button [ Html.Events.onClick NextHand ] [ text "next hand" ]
+                ]
     in
-    li [ Html.Attributes.class "hand" ] (List.map card strings)
+    ul [ Html.Attributes.class "hand" ] (List.map card strings)
 
 
 view : Model -> Html Msg
 view model =
     div [ Html.Attributes.id "app" ]
-        [ button [ Html.Events.onClick NextHand ] [ text "next hand" ]
+        [ section [ Html.Attributes.class "hud" ]
+            [ p [] [ text "WIP" ]
+            ]
         , viewHands model.hands
         ]
 
