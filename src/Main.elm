@@ -14,7 +14,6 @@ import Random
 
 
 
----- CARDS ----
 ---- PLAYER ----
 
 
@@ -56,8 +55,12 @@ playerCards =
     [ Cards.rainCard, Cards.passTimeCard, Cards.cowCard, Cards.passTimeCard, Cards.rainCard, Cards.rainCard, Cards.cowCard, Cards.cowCard ]
 
 
+type alias GameDeck =
+    Deck Card
+
+
 type alias Model =
-    { decks : List (Deck Card)
+    { decks : List GameDeck
     , hands : List ( Int, List String )
     , index : Int
     , player : Plant
@@ -65,11 +68,20 @@ type alias Model =
     }
 
 
+dummyCards : Int -> ( Int, List String )
+dummyCards index =
+    ( index, [ "Card 1", "Card 2", "Card 3" ] )
+
+
 init : ( Model, Cmd Msg )
 init =
     ( Model
-        [ Engine.Deck.new "Player" playerCards, Engine.Deck.new "Environment" environmentCards ]
-        [ ( 1, [ "Card 1", "Card 2", "Card 3" ] ), ( 0, [] ) ]
+        [ Engine.Deck.new "Player" playerCards
+        , Engine.Deck.new "Environment" environmentCards
+        ]
+        [ dummyCards 1
+        , ( 0, [] )
+        ]
         2
         Engine.Plant.new
         (Random.initialSeed 42)
@@ -89,7 +101,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NextHand ->
-            ( { model | hands = List.take 2 (( model.index, [ "Card 1", "Card 2", "Card 3" ] ) :: model.hands), index = model.index + 1 }, Cmd.none )
+            ( { model | hands = List.take 2 (dummyCards model.index :: model.hands), index = model.index + 1 }, Cmd.none )
 
 
 
