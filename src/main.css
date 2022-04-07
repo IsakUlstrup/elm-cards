@@ -23,7 +23,12 @@
 body {
   font-family: 'Helvetica', 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   color: #293c4b;
-  background-color: #262626;
+  background: #42275a;
+  background: linear-gradient(to bottom, #734b6d, #42275a);
+
+
+
+
   color: white;
 }
 
@@ -72,12 +77,12 @@ body {
   flex: 0 1 content;
   background: rgb(41, 78, 43);
   padding: 2rem;
+  opacity: 0;
 }
 
 .hand-container {
   flex: 0 0 content;
   display: flex;
-  background: #262626;
   overflow-x: hidden;
 }
 

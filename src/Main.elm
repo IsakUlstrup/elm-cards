@@ -138,8 +138,7 @@ view : Model -> Html Msg
 view model =
     div [ Html.Attributes.id "app" ]
         [ section [ Html.Attributes.class "hud" ]
-            [ p [] [ text "WIP" ]
-            ]
+            []
         , viewHands model.hands
         ]
 
