@@ -85,9 +85,12 @@ body {
   /* border: 1px solid red; */
   padding: 3rem 0;
   overflow-x: hidden;
-  display: flex;
+  display: grid;
+  justify-items: center;
   justify-content: center;
-  gap: 3%;
+  grid-template-columns: repeat(auto-fit, minmax(0, max-content));
+  column-gap: 2rem;
+  grid-auto-flow: column;
   list-style: none;
   flex: 1;
   animation-duration: var(--card-transition-duration);
@@ -102,30 +105,38 @@ body {
 }
 
 .card {
+  display: inline-block;
+  height: 96%;
+  padding-bottom: 4%;
   text-align: center;
   white-space: nowrap;
-  flex: 20%;
-  font-size: min(4vw, 1rem);
-  max-width: 10rem;
-  padding: clamp(0rem, 3%, 1rem);
-  border: 0.4rem solid white;
-  border-radius: 0.7rem;
-  overflow: hidden;
-  background: linear-gradient(rgb(1, 107, 102), rgb(3, 33, 37));
+  width: 10rem;
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
+  /* overflow: hidden; */
+}
+
+.card-container {
+  display: inline-block;
+  background: #c94b4b;
+  background: linear-gradient(to top, #4b134f, #c94b4b);
+  border-radius: 1rem;
   transition: transform 0.2s;
 }
 
-.card:hover {
-  border: 0.4rem solid rgb(226, 26, 233);
+/* .card-container:hover {
   transform: scale(1.1) translate(0, -0.5rem) rotate(-3deg);
-}
+} */
 
 .card button {
-  width: 86%;
+  width: 90%;
   margin: 5%;
   overflow-x: hidden;
-  font-size: min(4vw, 1rem);
-  padding: 2%;
+  font-size: 1rem;
+  padding: 1rem;
   transition: background 0.3s, transform 0.1s;
   background: rgb(255, 201, 130);
   border: none;

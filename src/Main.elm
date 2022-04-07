@@ -121,11 +121,13 @@ viewHand ( i, strings ) =
     let
         card : String -> Html Msg
         card c =
-            li [ Html.Attributes.class "card" ]
-                [ h3 [] [ text c ]
-                , p [] [ text ("Hand #" ++ String.fromInt i) ]
-                , button [ Html.Events.onClick NextHand ] [ text "Play card" ]
-                , p [] [ text "Card description" ]
+            li [ Html.Attributes.class "card-container" ]
+                [ div [ Html.Attributes.class "card" ]
+                    [ h3 [] [ text c ]
+                    , p [] [ text ("Hand #" ++ String.fromInt i) ]
+                    , button [ Html.Events.onClick NextHand ] [ text "Play card" ]
+                    , p [] [ text "Card description" ]
+                    ]
                 ]
     in
     ul [ Html.Attributes.class "hand" ] (List.map card strings)
