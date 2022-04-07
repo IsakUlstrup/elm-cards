@@ -94,7 +94,6 @@ body {
   justify-content: center;
   justify-items: center;
   align-items: flex-end;
-  gap: 5%;
   list-style: none;
   flex: 1;
   animation-duration: var(--card-transition-duration);
@@ -114,14 +113,14 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  bottom: -5%;
+  bottom: -3%;
   content: "";
   z-index: -1;
   display: inline-block;
-  border-radius: 15%;
+  border-radius: 1rem;
   transition: transform 0.2s;
-  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.7);
+  /* border: 1px solid rgba(0, 0, 0, 0.6); */
   background: #c94b4b;
   background: linear-gradient(to top, #4b134f, #c94b4b);
 }
@@ -141,7 +140,8 @@ body {
   max-width: 15rem;
   font-size: 1rem;
   padding: 3%;
-  border-radius: 15%;
+  margin: 3%;
+  border-radius: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
 }
@@ -161,19 +161,19 @@ body {
   background: rgba(255, 255, 255, 0.5);
   color: rgba(0, 0, 0, 0.8);
   padding: 10%;
-  border-radius: 0 0 1rem 1rem;
+  border-radius: 0 0 0.5rem 0.5rem;
   font-size: clamp(0.2rem, 2vw, 1rem);
 }
 
 .card button {
   width: 100%;
   overflow-x: hidden;
-  font-size: clamp(0.2rem, 4vw, 1rem);
+  font-size: clamp(0.2rem, 3vw, 1rem);
   font-weight: bolder;
   padding: 3%;
   transition: background 0.3s, transform 0.1s;
   background: rgba(255, 255, 255, 0.6);
-  border-radius: 1rem 1rem 0 0;
+  border-radius: 0.5rem 0.5rem 0 0;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   color: rgba(0, 0, 0, 0.7);
