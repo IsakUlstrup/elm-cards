@@ -17,7 +17,7 @@
 
 :root {
   --card-transition-delay: 0.4s;
-  --card-transition-duration: 1s;
+  --card-transition-duration: 0.5s;
 }
 
 body {
@@ -139,7 +139,7 @@ body {
   flex: 1;
   max-width: 15rem;
   font-size: 1rem;
-  padding: 3%;
+  padding: min(3%, 1rem);
   margin: 3%;
   border-radius: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
