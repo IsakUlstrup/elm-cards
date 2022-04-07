@@ -75,7 +75,7 @@ body {
 }
 
 .hand-container {
-  flex: 0 1 20rem;
+  flex: 0 0 content;
   display: flex;
   background: #262626;
   overflow-x: hidden;
@@ -104,20 +104,6 @@ body {
   animation-name: expand;
 }
 
-.card {
-  display: inline-block;
-  height: 96%;
-  padding-bottom: 4%;
-  text-align: center;
-  white-space: nowrap;
-  width: 10rem;
-  font-size: 1rem;
-  padding: 1rem;
-  border-radius: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
-  /* overflow: hidden; */
-}
 
 .card-container {
   display: inline-block;
@@ -130,6 +116,29 @@ body {
 /* .card-container:hover {
   transform: scale(1.1) translate(0, -0.5rem) rotate(-3deg);
 } */
+
+.card {
+  display: inline-block;
+  padding-bottom: 1rem;
+  text-align: center;
+  white-space: nowrap;
+  width: 15rem;
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
+}
+
+.card .title {
+  text-align: left;
+}
+
+.card .icon {
+  font-size: 4rem;
+  margin: 3rem 0;
+}
+
 
 .card button {
   width: 90%;

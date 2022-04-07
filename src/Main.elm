@@ -5,7 +5,7 @@ import Content.Cards as Cards
 import Engine.Card exposing (Card, CardOperation(..))
 import Engine.Deck exposing (Deck)
 import Engine.Plant exposing (Plant)
-import Html exposing (Html, button, div, h3, li, p, section, text, ul)
+import Html exposing (Html, button, div, h1, h3, li, p, section, text, ul)
 import Html.Attributes
 import Html.Events
 import Html.Keyed
@@ -123,7 +123,8 @@ viewHand ( i, strings ) =
         card c =
             li [ Html.Attributes.class "card-container" ]
                 [ div [ Html.Attributes.class "card" ]
-                    [ h3 [] [ text c ]
+                    [ h3 [ Html.Attributes.class "title" ] [ text c ]
+                    , h1 [ Html.Attributes.class "icon" ] [ text "☀️" ]
                     , p [] [ text ("Hand #" ++ String.fromInt i) ]
                     , button [ Html.Events.onClick NextHand ] [ text "Play card" ]
                     , p [] [ text "Card description" ]
