@@ -167,17 +167,17 @@ body {
   overflow-x: hidden;
   font-size: 1rem;
   padding: 1rem;
-  color: white;
   transition: background 0.3s, transform 0.1s;
-  background: rgba(78, 63, 90, 0.7);
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 1rem 1rem 0 0;
   border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .card button:hover {
-  background: rgb(100, 78, 117);
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .card button:active {
-  background: rgb(192, 73, 138);
+  background: rgba(255, 255, 255, 0.2);
 }
