@@ -107,12 +107,12 @@ body {
 
 .card-container {
   display: inline-block;
-  background: #c94b4b;
-  background: linear-gradient(to top, #4b134f, #c94b4b);
   border-radius: 1.5rem;
   transition: transform 0.2s;
   box-shadow: 0 0 2rem rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(0, 0, 0, 0.6);
+  background: #c94b4b;
+  background: linear-gradient(to top, #4b134f, #c94b4b);
 }
 
 /* .card-container:hover {
@@ -120,6 +120,7 @@ body {
 } */
 
 .card {
+  user-select: none;
   display: inline-block;
   margin-bottom: 0.5rem;
   text-align: center;
@@ -134,6 +135,9 @@ body {
 
 .card .title {
   text-align: left;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 2rem;
+  line-height: 2rem;
 }
 
 .card .icon {
