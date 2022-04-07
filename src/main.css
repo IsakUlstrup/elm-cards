@@ -105,7 +105,14 @@ body {
 }
 
 
-.card-container {
+.card:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -1rem;
+  content: "";
+  z-index: -1;
   display: inline-block;
   border-radius: 1.5rem;
   transition: transform 0.2s;
@@ -120,6 +127,7 @@ body {
 } */
 
 .card {
+  position: relative;
   user-select: none;
   display: inline-block;
   margin-bottom: 0.5rem;
@@ -141,7 +149,8 @@ body {
 }
 
 .card .icon {
-  font-size: 4rem;
+  font-size: 6rem;
+  line-height: 6rem;
   margin: 2rem 0;
 }
 
