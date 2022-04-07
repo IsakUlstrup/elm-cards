@@ -93,6 +93,7 @@ body {
   display: flex;
   justify-content: center;
   justify-items: center;
+  align-items: flex-end;
   gap: 5%;
   list-style: none;
   flex: 1;
