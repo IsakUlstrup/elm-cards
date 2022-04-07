@@ -154,7 +154,7 @@ body {
 .card .body {
   text-align: left;
   background: rgba(255, 255, 255, 0.5);
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(46, 46, 46, 0.7);
   padding: 10%;
   border-radius: 0 0 0.5rem 0.5rem;
   font-size: clamp(0.2rem, 2vw, 1rem);
@@ -171,12 +171,12 @@ body {
   border-radius: 0.5rem 0.5rem 0 0;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  color: rgba(0, 0, 0, 0.7);
+  color: rgba(46, 46, 46, 0.7);
 }
 
 .card button:hover {
   background: rgba(255, 255, 255, 0.8);
-  color: rgba(0, 0, 0, 1);
+  color: rgba(46, 46, 46, 1);
 }
 
 .card button:active {
