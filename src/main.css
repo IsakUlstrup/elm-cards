@@ -116,9 +116,8 @@ body {
   border-radius: 1rem;
   transition: transform 0.2s;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.7);
-  /* border: 1px solid rgba(0, 0, 0, 0.6); */
   background: #c94b4b;
-  background: linear-gradient(to top, #4b134f, #c94b4b);
+  background: linear-gradient(to top, #601665, #c94b4b);
 }
 
 /* .card-container:hover {
