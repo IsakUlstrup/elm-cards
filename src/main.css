@@ -90,12 +90,10 @@ body {
   /* border: 1px solid red; */
   padding: 3rem 0;
   overflow-x: hidden;
-  display: grid;
+  display: flex;
   justify-items: center;
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(0, max-content));
-  column-gap: 2rem;
-  grid-auto-flow: column;
+  gap: 1%;
   list-style: none;
   flex: 1;
   animation-duration: var(--card-transition-duration);
@@ -138,7 +136,7 @@ body {
   margin-bottom: 0.5rem;
   text-align: center;
   white-space: nowrap;
-  width: 15rem;
+  flex: 0 1 15rem;
   font-size: 1rem;
   padding: 1rem;
   border-radius: 1.5rem;
