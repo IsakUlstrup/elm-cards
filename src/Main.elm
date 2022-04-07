@@ -125,9 +125,11 @@ viewHand ( i, strings ) =
                 [ div [ Html.Attributes.class "card" ]
                     [ h3 [ Html.Attributes.class "title" ] [ text c ]
                     , h1 [ Html.Attributes.class "icon" ] [ text "☀️" ]
-                    , p [] [ text ("Hand #" ++ String.fromInt i) ]
                     , button [ Html.Events.onClick NextHand ] [ text "Play card" ]
-                    , p [] [ text "Card description" ]
+                    , div [ Html.Attributes.class "body" ]
+                        [ p [] [ text ("Hand #" ++ String.fromInt i) ]
+                        , p [] [ text "Card description" ]
+                        ]
                     ]
                 ]
     in

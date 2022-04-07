@@ -142,26 +142,33 @@ body {
 
 .card .icon {
   font-size: 4rem;
-  margin: 3rem 0;
+  margin: 2rem 0;
 }
 
+.card .body {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.5);
+  color: #262626;
+  padding: 1rem;
+  border-radius: 0 0 1rem 1rem;
+}
 
 .card button {
-  width: 90%;
-  margin: 5%;
+  width: 100%;
   overflow-x: hidden;
   font-size: 1rem;
   padding: 1rem;
+  color: white;
   transition: background 0.3s, transform 0.1s;
-  background: rgb(255, 201, 130);
+  background: rgba(78, 63, 90, 0.7);
+  border-radius: 1rem 1rem 0 0;
   border: none;
-  border-radius: 0.3rem;
 }
 
 .card button:hover {
-  background: rgb(255, 226, 187);
+  background: rgb(100, 78, 117);
 }
 
 .card button:active {
-  transform: scale(0.9);
+  transform: scale(1.1);
 }
