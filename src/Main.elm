@@ -262,7 +262,7 @@ viewCard hand index card =
 
         selectedAttr =
             if selectedFlag && playedFlag then
-                [ Html.Attributes.class "played" ]
+                [ Html.Attributes.class "selected", Html.Attributes.class "played" ]
 
             else if selectedFlag then
                 [ Html.Attributes.class "selected" ]
