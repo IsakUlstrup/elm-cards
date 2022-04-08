@@ -83,7 +83,7 @@ init =
 
 
 type Msg
-    = NextHand
+    = NextHand Card
 
 
 {-| draw cards from first deck, and put it at the back of deck list
@@ -141,7 +141,7 @@ newHand model =
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        NextHand ->
+        NextHand _ ->
             newHand model
 
 
@@ -169,7 +169,7 @@ viewCard handIndex card =
     li [ Html.Attributes.class "card" ]
         [ h3 [ Html.Attributes.class "title" ] [ text card.name ]
         , h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
-        , button [ Html.Events.onClick NextHand ] [ text "Play card" ]
+        , button [ Html.Events.onClick (NextHand card) ] [ text "Play card" ]
         , div [ Html.Attributes.class "body" ]
             [ p [] [ text ("Hand #" ++ String.fromInt handIndex) ]
             , p [] [ text card.description ]
