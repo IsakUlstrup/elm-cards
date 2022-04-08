@@ -248,8 +248,23 @@ viewCard hand index card =
                 Nothing ->
                     False
 
+        playedFlag =
+            case hand.played of
+                Just si ->
+                    if si == index then
+                        True
+
+                    else
+                        False
+
+                Nothing ->
+                    False
+
         selectedAttr =
-            if selectedFlag then
+            if selectedFlag && playedFlag then
+                [ Html.Attributes.class "selected", Html.Attributes.class "played" ]
+
+            else if selectedFlag then
                 [ Html.Attributes.class "selected" ]
 
             else
