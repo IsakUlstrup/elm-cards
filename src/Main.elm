@@ -52,7 +52,7 @@ type alias GameDeck =
 type alias Model =
     { decks : List GameDeck
     , hands : List ( Int, List String )
-    , index : Int
+    , handCount : Int
     , player : Plant
     , seed : Random.Seed
     }
@@ -90,8 +90,8 @@ newHand model =
             ( index, [ "Card 1", "Card 2", "Card 3" ] )
     in
     { model
-        | hands = List.take 2 (dummyCards model.index :: model.hands)
-        , index = model.index + 1
+        | hands = List.take 2 (dummyCards model.handCount :: model.hands)
+        , handCount = model.handCount + 1
     }
 
 
