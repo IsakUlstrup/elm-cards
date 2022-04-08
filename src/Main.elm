@@ -148,7 +148,7 @@ update msg model =
 viewPlant : Plant -> Html msg
 viewPlant plant =
     div [ Html.Attributes.class "plant" ]
-        [ h1 [] [ text "Plant" ]
+        [ h1 [] [ text "🌱" ]
         , p [] [ text ("water: " ++ String.fromFloat plant.water) ]
         , p [] [ text ("fertilizer: " ++ String.fromFloat plant.fertilizer) ]
         , p [] [ text ("light: " ++ String.fromFloat plant.light) ]
