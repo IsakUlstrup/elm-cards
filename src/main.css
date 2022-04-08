@@ -120,6 +120,7 @@ body {
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.7);
   background: #c94b4b;
   background: linear-gradient(to top, #601665, #c94b4b);
+  transform: translateZ(-1em);
 }
 
 /* .card-container:hover {
@@ -130,7 +131,6 @@ body {
   position: relative;
   user-select: none;
   display: inline-block;
-  margin-bottom: 0.5rem;
   text-align: center;
   white-space: nowrap;
   flex: 1;
@@ -141,11 +141,12 @@ body {
   border-radius: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
-  transition: background 0.2s ease-out;
+  transition: transform 0.2s ease-out;
+  transform-style: preserve-3d;
 }
 
 .card.selected {
-  background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2));
+  transform: scale(1.1) translateY(-2rem) rotate(-3deg);
 }
 
 .card .title {
