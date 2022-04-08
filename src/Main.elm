@@ -127,14 +127,13 @@ newHand model =
 
                 Nothing ->
                     hands
-    in
-    let
-        decks =
+
+        newDecks =
             firstDeckDraw model.decks
     in
     { model
-        | decks = decks |> moveDeckBack
-        , hands = newHands model.handCount decks model.hands
+        | decks = newDecks |> moveDeckBack
+        , hands = newHands model.handCount newDecks model.hands
         , handCount = model.handCount + 1
     }
 
