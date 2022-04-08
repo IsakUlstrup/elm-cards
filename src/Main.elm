@@ -55,7 +55,7 @@ type alias GameHand =
 
 type alias Model =
     { decks : List GameDeck
-    , hands : List ( Int, List String )
+    , hands : List ( Int, GameHand )
     , handCount : Int
     , player : Plant
     , seed : Random.Seed
@@ -91,10 +91,6 @@ type Msg
 newHand : Model -> Model
 newHand model =
     let
-        dummyCards : Int -> ( Int, List String )
-        dummyCards index =
-            ( index, [ "Card 1", "Card 2", "Card 3" ] )
-
         -- Draw a new hand on first deck
         firstDeckDraw : List GameDeck -> List GameDeck
         firstDeckDraw ds =
@@ -122,9 +118,23 @@ newHand model =
 
                 d :: dss ->
                     dss ++ [ d ]
+
+        newHands : Int -> List GameDeck -> List ( Int, GameHand ) -> List ( Int, GameHand )
+        newHands index decks hands =
+            case firstDeckHand decks of
+                Just hand ->
+                    List.take 2 (( index, hand ) :: model.hands)
+
+                Nothing ->
+                    hands
+    in
+    let
+        decks =
+            firstDeckDraw model.decks
     in
     { model
-        | hands = List.take 2 (dummyCards model.handCount :: model.hands)
+        | decks = decks |> moveDeckBack
+        , hands = newHands model.handCount decks model.hands
         , handCount = model.handCount + 1
     }
 
@@ -140,30 +150,30 @@ update msg model =
 ---- VIEW ----
 
 
-viewHands : List ( Int, List String ) -> Html Msg
+viewHands : List ( Int, GameHand ) -> Html Msg
 viewHands hands =
     Html.Keyed.node "section" [ Html.Attributes.class "hand-container" ] (List.map viewKeyedHand hands)
 
 
-viewKeyedHand : ( Int, List String ) -> ( String, Html Msg )
+viewKeyedHand : ( Int, GameHand ) -> ( String, Html Msg )
 viewKeyedHand hand =
     ( String.fromInt (Tuple.first hand), Html.Lazy.lazy viewHand hand )
 
 
-viewHand : ( Int, List String ) -> Html Msg
-viewHand ( i, strings ) =
-    ul [ Html.Attributes.class "hand" ] (List.map (viewCard i) strings)
+viewHand : ( Int, GameHand ) -> Html Msg
+viewHand ( i, hand ) =
+    ul [ Html.Attributes.class "hand" ] (List.map (viewCard i) hand)
 
 
-viewCard : Int -> String -> Html Msg
+viewCard : Int -> Card -> Html Msg
 viewCard handIndex card =
     li [ Html.Attributes.class "card" ]
-        [ h3 [ Html.Attributes.class "title" ] [ text card ]
-        , h1 [ Html.Attributes.class "icon" ] [ text "☀️" ]
+        [ h3 [ Html.Attributes.class "title" ] [ text card.name ]
+        , h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
         , button [ Html.Events.onClick NextHand ] [ text "Play card" ]
         , div [ Html.Attributes.class "body" ]
             [ p [] [ text ("Hand #" ++ String.fromInt handIndex) ]
-            , p [] [ text "Card description" ]
+            , p [] [ text card.description ]
             ]
         ]
 
