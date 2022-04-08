@@ -27,7 +27,7 @@ type alias GameHand =
 
 type alias Model =
     { decks : List GameDeck
-    , hands : List ( Int, GameHand )
+    , hands : List GameHand
     , handCount : Int
     , plant : Plant
     , seed : Random.Seed
@@ -40,9 +40,9 @@ init =
         [ Cards.playerDeck
         , Cards.environmentDeck
         ]
-        [ ( 0, ( Nothing, [] ) )
+        [ ( Nothing, [] )
         ]
-        1
+        0
         Engine.Plant.new
         (Random.initialSeed 42)
         |> newHand
@@ -56,6 +56,7 @@ init =
 
 type Msg
     = NextHand Card
+    | SelectCard Int
 
 
 {-| draw cards from first deck, and put it at the back of deck list
@@ -91,11 +92,11 @@ newHand model =
                 d :: dss ->
                     dss ++ [ d ]
 
-        newHands : Int -> List GameDeck -> List ( Int, GameHand ) -> List ( Int, GameHand )
-        newHands index decks hands =
+        newHands : Int -> List GameDeck -> List GameHand -> List GameHand
+        newHands _ decks hands =
             case firstDeckHand decks of
                 Just hand ->
-                    List.take 2 (( index, hand ) :: model.hands)
+                    List.take 2 (hand :: model.hands)
 
                 Nothing ->
                     hands
@@ -134,11 +135,35 @@ applyCard card model =
     { model | plant = List.foldr applyOperation model.plant card.operations }
 
 
+selectCard : Int -> Model -> Model
+selectCard index model =
+    let
+        setSelected : Int -> GameHand -> GameHand
+        setSelected i hand =
+            Tuple.mapFirst (always (Just i)) hand
+    in
+    { model
+        | hands =
+            List.indexedMap
+                (\i h ->
+                    if i == 0 then
+                        setSelected index h
+
+                    else
+                        h
+                )
+                model.hands
+    }
+
+
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         NextHand card ->
             model |> applyCard card |> newHand
+
+        SelectCard ci ->
+            model |> selectCard ci
 
 
 
@@ -157,19 +182,19 @@ viewPlant plant =
         ]
 
 
-viewHands : List ( Int, GameHand ) -> Html Msg
-viewHands hands =
-    Html.Keyed.node "section" [ Html.Attributes.class "hand-container" ] (List.map viewKeyedHand hands)
+viewHands : Int -> List GameHand -> Html Msg
+viewHands handCount hands =
+    Html.Keyed.node "section" [ Html.Attributes.class "hand-container" ] (List.map (viewKeyedHand handCount) hands)
 
 
-viewKeyedHand : ( Int, GameHand ) -> ( String, Html Msg )
-viewKeyedHand hand =
-    ( String.fromInt (Tuple.first hand), Html.Lazy.lazy viewHand hand )
+viewKeyedHand : Int -> GameHand -> ( String, Html Msg )
+viewKeyedHand handCount hand =
+    ( String.fromInt handCount, Html.Lazy.lazy (viewHand handCount) hand )
 
 
-viewHand : ( Int, GameHand ) -> Html Msg
-viewHand ( i, ( s, hand ) ) =
-    ul [ Html.Attributes.class "hand" ] (List.indexedMap (viewCard i s) hand)
+viewHand : Int -> GameHand -> Html Msg
+viewHand handCount ( s, hand ) =
+    ul [ Html.Attributes.class "hand" ] (List.indexedMap (viewCard handCount s) hand)
 
 
 viewCard : Int -> Maybe Int -> Int -> Card -> Html Msg
@@ -187,7 +212,7 @@ viewCard _ selected index card =
                 Nothing ->
                     []
     in
-    li ([ Html.Attributes.class "card" ] ++ selectedAttr)
+    li ([ Html.Attributes.class "card", Html.Events.onClick (SelectCard index) ] ++ selectedAttr)
         [ h3 [ Html.Attributes.class "title" ] [ text card.name ]
         , h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
         , button [ Html.Events.onClick (NextHand card) ] [ text "Play card" ]
@@ -201,7 +226,7 @@ view : Model -> Html Msg
 view model =
     div [ Html.Attributes.id "app" ]
         [ viewPlant model.plant
-        , viewHands model.hands
+        , viewHands model.handCount model.hands
         ]
 
 
