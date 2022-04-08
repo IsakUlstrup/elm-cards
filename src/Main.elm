@@ -112,26 +112,26 @@ viewHands hands =
 
 
 viewKeyedHand : ( Int, List String ) -> ( String, Html Msg )
-viewKeyedHand ( i, hand ) =
-    ( String.fromInt i, Html.Lazy.lazy viewHand ( i, hand ) )
+viewKeyedHand hand =
+    ( String.fromInt (Tuple.first hand), Html.Lazy.lazy viewHand hand )
 
 
 viewHand : ( Int, List String ) -> Html Msg
 viewHand ( i, strings ) =
-    let
-        card : String -> Html Msg
-        card c =
-            li [ Html.Attributes.class "card" ]
-                [ h3 [ Html.Attributes.class "title" ] [ text c ]
-                , h1 [ Html.Attributes.class "icon" ] [ text "☀️" ]
-                , button [ Html.Events.onClick NextHand ] [ text "Play card" ]
-                , div [ Html.Attributes.class "body" ]
-                    [ p [] [ text ("Hand #" ++ String.fromInt i) ]
-                    , p [] [ text "Card description" ]
-                    ]
-                ]
-    in
-    ul [ Html.Attributes.class "hand" ] (List.map card strings)
+    ul [ Html.Attributes.class "hand" ] (List.map (viewCard i) strings)
+
+
+viewCard : Int -> String -> Html Msg
+viewCard handIndex card =
+    li [ Html.Attributes.class "card" ]
+        [ h3 [ Html.Attributes.class "title" ] [ text card ]
+        , h1 [ Html.Attributes.class "icon" ] [ text "☀️" ]
+        , button [ Html.Events.onClick NextHand ] [ text "Play card" ]
+        , div [ Html.Attributes.class "body" ]
+            [ p [] [ text ("Hand #" ++ String.fromInt handIndex) ]
+            , p [] [ text "Card description" ]
+            ]
+        ]
 
 
 view : Model -> Html Msg
