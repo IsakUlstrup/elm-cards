@@ -141,49 +141,39 @@ applyCard card model =
     { model | plant = List.foldr applyOperation model.plant card.operations }
 
 
-selectCard : Int -> Model -> Model
-selectCard index model =
-    let
-        setSelected : Int -> GameHand -> GameHand
-        setSelected i hand =
-            case hand.selected of
-                Just sel ->
-                    if sel == i then
-                        { hand | selected = Nothing }
+{-| Given an index and a hand, set selected card index, will toggle if provided index matches current selection
+-}
+setSelected : Int -> GameHand -> GameHand
+setSelected i hand =
+    case hand.selected of
+        Just sel ->
+            if sel == i then
+                { hand | selected = Nothing }
 
-                    else
-                        { hand | selected = Just i }
+            else
+                { hand | selected = Just i }
 
-                Nothing ->
-                    { hand | selected = Just i }
-    in
+        Nothing ->
+            { hand | selected = Just i }
+
+
+{-| Set played card index
+-}
+setPlayed : Int -> GameHand -> GameHand
+setPlayed i hand =
+    { hand | played = Just i }
+
+
+{-| Run a function on the first hand in model.hands
+-}
+updateCurrentHand : (GameHand -> GameHand) -> Model -> Model
+updateCurrentHand f model =
     { model
         | hands =
             List.indexedMap
                 (\i h ->
                     if i == 0 then
-                        setSelected index h
-
-                    else
-                        h
-                )
-                model.hands
-    }
-
-
-playCard : Int -> Model -> Model
-playCard index model =
-    let
-        setSelected : Int -> GameHand -> GameHand
-        setSelected i hand =
-            { hand | played = Just i }
-    in
-    { model
-        | hands =
-            List.indexedMap
-                (\i h ->
-                    if i == 0 then
-                        setSelected index h
+                        f h
 
                     else
                         h
@@ -196,10 +186,10 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         NextHand ci card ->
-            model |> playCard ci |> applyCard card |> newHand
+            model |> updateCurrentHand (setPlayed ci) |> applyCard card |> newHand
 
         SelectCard ci ->
-            model |> selectCard ci
+            model |> updateCurrentHand (setSelected ci)
 
 
 
