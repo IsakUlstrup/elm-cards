@@ -147,7 +147,14 @@ update msg model =
 
 viewPlant : Plant -> Html msg
 viewPlant plant =
-    div [ Html.Attributes.class "plant" ] [ text "Plant" ]
+    div [ Html.Attributes.class "plant" ]
+        [ h1 [] [ text "Plant" ]
+        , p [] [ text ("water: " ++ String.fromFloat plant.water) ]
+        , p [] [ text ("fertilizer: " ++ String.fromFloat plant.fertilizer) ]
+        , p [] [ text ("light: " ++ String.fromFloat plant.light) ]
+        , p [] [ text ("temp: " ++ String.fromFloat plant.temperature) ]
+        , p [] [ text ("growth: " ++ String.fromFloat plant.growth) ]
+        ]
 
 
 viewHands : List ( Int, GameHand ) -> Html Msg
