@@ -5,7 +5,7 @@ import Content.Cards as Cards
 import Engine.Card exposing (Card, CardOperation(..))
 import Engine.Deck exposing (Deck)
 import Engine.Plant exposing (Plant)
-import Html exposing (Html, button, div, h1, h3, li, p, section, text, ul)
+import Html exposing (Html, button, div, h1, h3, li, p, text, ul)
 import Html.Attributes
 import Html.Events
 import Html.Keyed
