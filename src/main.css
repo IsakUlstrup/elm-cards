@@ -115,9 +115,8 @@ body {
   bottom: -3%;
   content: "";
   z-index: -1;
-  display: inline-block;
+  display: block;
   border-radius: 1rem;
-  transition: transform 0.2s;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.7);
   background: #c94b4b;
   background: linear-gradient(to top, #601665, #c94b4b);
@@ -142,6 +141,11 @@ body {
   border-radius: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
+  transition: background 0.2s ease-out;
+}
+
+.card.selected {
+  background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2));
 }
 
 .card .title {
