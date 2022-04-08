@@ -49,6 +49,10 @@ type alias GameDeck =
     Deck Card
 
 
+type alias GameHand =
+    List Card
+
+
 type alias Model =
     { decks : List GameDeck
     , hands : List ( Int, List String )
@@ -82,12 +86,42 @@ type Msg
     = NextHand
 
 
+{-| draw cards from first deck, and put it at the back of deck list
+-}
 newHand : Model -> Model
 newHand model =
     let
         dummyCards : Int -> ( Int, List String )
         dummyCards index =
             ( index, [ "Card 1", "Card 2", "Card 3" ] )
+
+        -- Draw a new hand on first deck
+        firstDeckDraw : List GameDeck -> List GameDeck
+        firstDeckDraw ds =
+            List.indexedMap
+                (\i d ->
+                    if i == 0 then
+                        Engine.Deck.discardDraw 3 d
+
+                    else
+                        d
+                )
+                ds
+
+        -- get hand from first deck
+        firstDeckHand : List GameDeck -> Maybe GameHand
+        firstDeckHand ds =
+            List.head ds |> Maybe.andThen (\deck -> Just deck.hand)
+
+        -- move first deck to the bottom of deck list
+        moveDeckBack : List GameDeck -> List GameDeck
+        moveDeckBack ds =
+            case ds of
+                [] ->
+                    []
+
+                d :: dss ->
+                    dss ++ [ d ]
     in
     { model
         | hands = List.take 2 (dummyCards model.handCount :: model.hands)
