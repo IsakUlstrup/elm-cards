@@ -25,7 +25,10 @@ type alias GameDeck =
 {-| Selected card index, list of cards
 -}
 type alias GameHand =
-    ( Maybe Int, List Card )
+    { selected : Maybe Int
+    , played : Maybe Int
+    , cards : List Card
+    }
 
 
 type alias Model =
@@ -43,7 +46,7 @@ init =
         [ Cards.playerDeck
         , Cards.environmentDeck
         ]
-        [ ( Nothing, [] )
+        [ GameHand Nothing Nothing []
         ]
         0
         Engine.Plant.new
@@ -83,7 +86,7 @@ newHand model =
         -- get hand from first deck
         firstDeckHand : List GameDeck -> Maybe GameHand
         firstDeckHand ds =
-            List.head ds |> Maybe.andThen (\deck -> Just ( Nothing, deck.hand ))
+            List.head ds |> Maybe.andThen (\deck -> Just (GameHand Nothing Nothing deck.hand))
 
         -- move first deck to the bottom of deck list
         moveDeckBack : List GameDeck -> List GameDeck
@@ -142,17 +145,17 @@ selectCard : Int -> Model -> Model
 selectCard index model =
     let
         setSelected : Int -> GameHand -> GameHand
-        setSelected i (( s, _ ) as h) =
-            case s of
+        setSelected i hand =
+            case hand.selected of
                 Just sel ->
-                    if sel == index then
-                        Tuple.mapFirst (always Nothing) h
+                    if sel == i then
+                        { hand | selected = Nothing }
 
                     else
-                        Tuple.mapFirst (always (Just i)) h
+                        { hand | selected = Just i }
 
                 Nothing ->
-                    Tuple.mapFirst (always (Just i)) h
+                    { hand | selected = Just i }
     in
     { model
         | hands =
@@ -205,15 +208,15 @@ viewKeyedHand handCount hand =
 
 
 viewHand : Int -> GameHand -> Html Msg
-viewHand handCount ( s, hand ) =
-    ul [ Html.Attributes.class "hand" ] (List.indexedMap (viewCard handCount s) hand)
+viewHand handCount hand =
+    ul [ Html.Attributes.class "hand" ] (List.indexedMap (viewCard hand) hand.cards)
 
 
-viewCard : Int -> Maybe Int -> Int -> Card -> Html Msg
-viewCard _ selected index card =
+viewCard : GameHand -> Int -> Card -> Html Msg
+viewCard hand index card =
     let
         selectedFlag =
-            case selected of
+            case hand.selected of
                 Just si ->
                     if si == index then
                         True
