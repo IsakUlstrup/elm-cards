@@ -209,22 +209,29 @@ viewHand handCount ( s, hand ) =
 viewCard : Int -> Maybe Int -> Int -> Card -> Html Msg
 viewCard _ selected index card =
     let
-        selectedAttr =
+        selectedFlag =
             case selected of
                 Just si ->
                     if si == index then
-                        [ Html.Attributes.class "selected" ]
+                        True
 
                     else
-                        []
+                        False
 
                 Nothing ->
-                    []
+                    False
+
+        selectedAttr =
+            if selectedFlag then
+                [ Html.Attributes.class "selected" ]
+
+            else
+                []
     in
     li ([ Html.Attributes.class "card", Html.Events.onClick (SelectCard index) ] ++ selectedAttr)
         [ h3 [ Html.Attributes.class "title" ] [ text card.name ]
         , h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
-        , button [ Html.Events.onClick (NextHand card) ] [ text "Play card" ]
+        , button [ Html.Events.onClick (NextHand card), Html.Attributes.disabled (not selectedFlag) ] [ text "Play card" ]
         , div [ Html.Attributes.class "body" ]
             [ p [] [ text card.description ]
             ]

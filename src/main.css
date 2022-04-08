@@ -188,11 +188,11 @@ body {
   color: rgba(46, 46, 46, 0);
 }
 
-.card button:hover {
+.card.selected button:hover {
   background: rgba(255, 255, 255, 0.8);
   color: rgba(46, 46, 46, 1);
 }
 
-.card button:active {
+.card.selected button:active {
   background: rgba(255, 255, 255, 0.2);
 }
