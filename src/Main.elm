@@ -215,11 +215,11 @@ viewHands handCount hands =
 
 viewKeyedHand : Int -> GameHand -> ( String, Html Msg )
 viewKeyedHand handCount hand =
-    ( String.fromInt handCount, Html.Lazy.lazy (viewHand handCount) hand )
+    ( String.fromInt handCount, Html.Lazy.lazy viewHand hand )
 
 
-viewHand : Int -> GameHand -> Html Msg
-viewHand handCount hand =
+viewHand : GameHand -> Html Msg
+viewHand hand =
     ul [ Html.Attributes.class "hand" ] (List.indexedMap (viewCard hand) hand.cards)
 
 
