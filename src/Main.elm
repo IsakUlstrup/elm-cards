@@ -5,8 +5,8 @@ import Content.Cards as Cards
 import Engine.Card exposing (Card, CardOperation(..))
 import Engine.Deck exposing (Deck)
 import Engine.Plant exposing (Plant)
-import Html exposing (Html, button, div, h1, h2, h3, li, p, span, sup, text, ul)
-import Html.Attributes exposing (selected)
+import Html exposing (Html, button, div, h1, h2, li, p, span, sup, text, ul)
+import Html.Attributes
 import Html.Events
 import Html.Keyed
 import Html.Lazy
@@ -249,6 +249,19 @@ viewCard hand index card =
 
             else
                 []
+
+        elementType =
+            if maybeEq hand.selected index then
+                button
+                    [ Html.Events.stopPropagationOn "click" (succeed ( NextHand index card, True ))
+                    , Html.Attributes.disabled (not (maybeEq hand.selected index))
+                    , Html.Attributes.class "play-card-button"
+                    ]
+
+            else
+                div
+                    [ Html.Attributes.class "play-card-button"
+                    ]
     in
     li
         ([ Html.Attributes.class "card"
@@ -258,10 +271,7 @@ viewCard hand index card =
         )
         [ h1 [ Html.Attributes.class "title" ] [ text card.name ]
         , h2 [ Html.Attributes.class "icon" ] [ text card.icon ]
-        , button
-            [ Html.Events.stopPropagationOn "click" (succeed ( NextHand index card, True ))
-            , Html.Attributes.disabled (not (maybeEq hand.selected index))
-            ]
+        , elementType
             [ span []
                 [ text "💩"
                 , sup [] [ text "2" ]
