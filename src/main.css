@@ -149,6 +149,10 @@ body {
   transform: scale(1.1) translateY(-2rem) rotate(-3deg);
 }
 
+.card.selected button {
+  color: rgba(46, 46, 46, 0.7);
+}
+
 .card .title {
   text-align: left;
   color: rgba(255, 255, 255, 0.7);
@@ -180,7 +184,8 @@ body {
   border-radius: 0.5rem 0.5rem 0 0;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  color: rgba(46, 46, 46, 0.7);
+  transition: color 0.3s ease-out;
+  color: rgba(46, 46, 46, 0);
 }
 
 .card button:hover {
