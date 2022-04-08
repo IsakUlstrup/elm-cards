@@ -14,6 +14,18 @@ import Json.Decode exposing (succeed)
 import Random
 
 
+{-| Compare a maybe value and a value of the same type, return true is equal
+-}
+maybeEq : Maybe a -> a -> Bool
+maybeEq ma a =
+    case Maybe.map ((==) a) ma of
+        Just j ->
+            j
+
+        Nothing ->
+            False
+
+
 
 ---- MODEL ----
 
@@ -228,24 +240,11 @@ viewHand hand =
 viewCard : GameHand -> Int -> Card -> Html Msg
 viewCard hand index card =
     let
-        flag : Maybe Int -> Int -> Bool
-        flag mi i =
-            case mi of
-                Just ji ->
-                    if ji == i then
-                        True
-
-                    else
-                        False
-
-                Nothing ->
-                    False
-
         selectedAttr =
-            if flag hand.selected index && flag hand.played index then
+            if maybeEq hand.selected index && maybeEq hand.played index then
                 [ Html.Attributes.class "selected", Html.Attributes.class "played" ]
 
-            else if flag hand.selected index then
+            else if maybeEq hand.selected index then
                 [ Html.Attributes.class "selected" ]
 
             else
@@ -261,7 +260,7 @@ viewCard hand index card =
         , h2 [ Html.Attributes.class "icon" ] [ text card.icon ]
         , button
             [ Html.Events.stopPropagationOn "click" (succeed ( NextHand index card, True ))
-            , Html.Attributes.disabled (not (flag hand.selected index))
+            , Html.Attributes.disabled (not (maybeEq hand.selected index))
             ]
             [ span []
                 [ text "💩"
