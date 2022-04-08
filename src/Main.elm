@@ -61,7 +61,7 @@ init =
 
 
 type Msg
-    = NextHand Card
+    = NextHand Int Card
     | SelectCard Int
 
 
@@ -171,11 +171,32 @@ selectCard index model =
     }
 
 
+playCard : Int -> Model -> Model
+playCard index model =
+    let
+        setSelected : Int -> GameHand -> GameHand
+        setSelected i hand =
+            { hand | played = Just i }
+    in
+    { model
+        | hands =
+            List.indexedMap
+                (\i h ->
+                    if i == 0 then
+                        setSelected index h
+
+                    else
+                        h
+                )
+                model.hands
+    }
+
+
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        NextHand card ->
-            model |> applyCard card |> newHand
+        NextHand ci card ->
+            model |> playCard ci |> applyCard card |> newHand
 
         SelectCard ci ->
             model |> selectCard ci
@@ -243,7 +264,7 @@ viewCard hand index card =
         [ h3 [ Html.Attributes.class "title" ] [ text card.name ]
         , h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
         , button
-            [ Html.Events.stopPropagationOn "click" (succeed ( NextHand card, True ))
+            [ Html.Events.stopPropagationOn "click" (succeed ( NextHand index card, True ))
             , Html.Attributes.disabled (not selectedFlag)
             ]
             [ text "Play card" ]
