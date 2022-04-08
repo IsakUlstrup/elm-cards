@@ -106,6 +106,7 @@ body {
   animation-name: expand;
 }
 
+/* CARD */
 
 .card:before {
   position: absolute;
@@ -123,14 +124,10 @@ body {
   transform: translateZ(-1em);
 }
 
-/* .card-container:hover {
-  transform: scale(1.1) translate(0, -0.5rem) rotate(-3deg);
-} */
-
 .card {
   position: relative;
   user-select: none;
-  display: inline-block;
+  display: block;
   text-align: center;
   white-space: nowrap;
   flex: 1;
@@ -141,16 +138,8 @@ body {
   border-radius: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
-  transition: transform 0.2s ease-out;
+  transition: transform 2s ease-out, opacity 0.2s ease-out;
   transform-style: preserve-3d;
-}
-
-.card.selected {
-  transform: scale(1.1) translateY(-2rem) rotate(-3deg);
-}
-
-.card.selected button {
-  color: rgba(46, 46, 46, 0.7);
 }
 
 .card .title {
@@ -186,6 +175,21 @@ body {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   transition: color 0.3s ease-out;
   color: rgba(46, 46, 46, 0);
+}
+
+
+/* CARD SELECTED/PLAYED STATUS */
+
+.card.selected {
+  transform: translateY(-2rem) rotate(-3deg);
+}
+
+.card.played {
+  transform: scale(1.1) translateY(-3rem) rotate(-4deg);
+}
+
+.card.selected button {
+  color: rgba(46, 46, 46, 0.7);
 }
 
 .card.selected button:hover {
