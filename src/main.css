@@ -62,11 +62,11 @@ body {
 
 @keyframes play-card {
   0% {
-    opacity: 1;
+    transform: translateY(-2rem) rotate(-3deg);
   }
 
   60% {
-    opacity: 0
+    transform: scale(1.15) translateY(-4rem) rotate(-4deg);
   }
 
 }
@@ -98,7 +98,8 @@ body {
 .hand {
   /* border: 1px solid red; */
   overflow-x: hidden;
-  padding: 2rem 0;
+  padding: 4rem 0;
+  padding-bottom: 2rem;
   display: flex;
   justify-content: center;
   justify-items: center;
@@ -195,7 +196,6 @@ body {
 }
 
 .card.played {
-  transform: scale(1.1) translateY(-3rem) rotate(-4deg);
   animation: play-card 0.3s forwards;
 }
 
