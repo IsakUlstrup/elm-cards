@@ -22,6 +22,8 @@ type alias GameDeck =
     Deck Card
 
 
+{-| Selected card index, list of cards
+-}
 type alias GameHand =
     ( Maybe Int, List Card )
 
@@ -237,7 +239,11 @@ viewCard _ selected index card =
         )
         [ h3 [ Html.Attributes.class "title" ] [ text card.name ]
         , h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
-        , button [ Html.Events.stopPropagationOn "click" (succeed ( NextHand card, True )), Html.Attributes.disabled (not selectedFlag) ] [ text "Play card" ]
+        , button
+            [ Html.Events.stopPropagationOn "click" (succeed ( NextHand card, True ))
+            , Html.Attributes.disabled (not selectedFlag)
+            ]
+            [ text "Play card" ]
         , div [ Html.Attributes.class "body" ]
             [ p [] [ text card.description ]
             ]
