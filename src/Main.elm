@@ -5,7 +5,7 @@ import Content.Cards as Cards
 import Engine.Card exposing (Card, CardOperation(..))
 import Engine.Deck exposing (Deck)
 import Engine.Plant exposing (Plant)
-import Html exposing (Html, button, div, h1, h3, li, p, text, ul)
+import Html exposing (Html, button, div, h1, h3, li, p, span, sup, text, ul)
 import Html.Attributes exposing (selected)
 import Html.Events
 import Html.Keyed
@@ -282,7 +282,15 @@ viewCard hand index card =
             [ Html.Events.stopPropagationOn "click" (succeed ( NextHand index card, True ))
             , Html.Attributes.disabled (not selectedFlag)
             ]
-            [ text "Play card" ]
+            [ span []
+                [ text "💩"
+                , sup [] [ text "2" ]
+                ]
+            , span []
+                [ text "💧"
+                , sup [] [ text "4" ]
+                ]
+            ]
         , div [ Html.Attributes.class "body" ]
             [ p [] [ text card.description ]
             ]
