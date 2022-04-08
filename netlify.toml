@@ -1,8 +1,9 @@
 [[redirects]]
-  from = "/robots.tzt"
+  from = "/robots.txt"
   to = "/robots.txt"
   status = 200
 
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
