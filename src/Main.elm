@@ -139,8 +139,17 @@ selectCard : Int -> Model -> Model
 selectCard index model =
     let
         setSelected : Int -> GameHand -> GameHand
-        setSelected i hand =
-            Tuple.mapFirst (always (Just i)) hand
+        setSelected i (( s, _ ) as h) =
+            case s of
+                Just sel ->
+                    if sel == index then
+                        Tuple.mapFirst (always Nothing) h
+
+                    else
+                        Tuple.mapFirst (always (Just i)) h
+
+                Nothing ->
+                    Tuple.mapFirst (always (Just i)) h
     in
     { model
         | hands =
