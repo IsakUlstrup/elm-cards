@@ -200,11 +200,13 @@ viewPlant : Plant -> Html msg
 viewPlant plant =
     div [ Html.Attributes.class "plant" ]
         [ h1 [] [ text "🌱" ]
-        , p [] [ text ("water: " ++ String.fromFloat plant.water) ]
-        , p [] [ text ("fertilizer: " ++ String.fromFloat plant.fertilizer) ]
-        , p [] [ text ("light: " ++ String.fromFloat plant.light) ]
-        , p [] [ text ("temp: " ++ String.fromFloat plant.temperature) ]
-        , p [] [ text ("growth: " ++ String.fromFloat plant.growth) ]
+        , ul []
+            [ li [] [ text ("water: " ++ String.fromFloat plant.water) ]
+            , li [] [ text ("fertilizer: " ++ String.fromFloat plant.fertilizer) ]
+            , li [] [ text ("light: " ++ String.fromFloat plant.light) ]
+            , li [] [ text ("temp: " ++ String.fromFloat plant.temperature) ]
+            , li [] [ text ("growth: " ++ String.fromFloat plant.growth) ]
+            ]
         ]
 
 

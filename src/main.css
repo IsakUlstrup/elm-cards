@@ -89,6 +89,13 @@ body {
   font-size: 10rem;
 }
 
+.plant ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
 .hand-container {
   flex: 0 0 content;
   display: flex;
