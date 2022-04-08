@@ -6,7 +6,7 @@ import Engine.Card exposing (Card, CardOperation(..))
 import Engine.Deck exposing (Deck)
 import Engine.Plant exposing (Plant)
 import Html exposing (Html, button, div, h1, h3, li, p, text, ul)
-import Html.Attributes
+import Html.Attributes exposing (selected)
 import Html.Events
 import Html.Keyed
 import Html.Lazy
@@ -22,7 +22,7 @@ type alias GameDeck =
 
 
 type alias GameHand =
-    List Card
+    ( Maybe Int, List Card )
 
 
 type alias Model =
@@ -40,7 +40,7 @@ init =
         [ Cards.playerDeck
         , Cards.environmentDeck
         ]
-        [ ( 0, [] )
+        [ ( 0, ( Nothing, [] ) )
         ]
         1
         Engine.Plant.new
@@ -79,7 +79,7 @@ newHand model =
         -- get hand from first deck
         firstDeckHand : List GameDeck -> Maybe GameHand
         firstDeckHand ds =
-            List.head ds |> Maybe.andThen (\deck -> Just deck.hand)
+            List.head ds |> Maybe.andThen (\deck -> Just ( Nothing, deck.hand ))
 
         -- move first deck to the bottom of deck list
         moveDeckBack : List GameDeck -> List GameDeck
@@ -168,13 +168,26 @@ viewKeyedHand hand =
 
 
 viewHand : ( Int, GameHand ) -> Html Msg
-viewHand ( i, hand ) =
-    ul [ Html.Attributes.class "hand" ] (List.map (viewCard i) hand)
+viewHand ( i, ( s, hand ) ) =
+    ul [ Html.Attributes.class "hand" ] (List.indexedMap (viewCard i s) hand)
 
 
-viewCard : Int -> Card -> Html Msg
-viewCard _ card =
-    li [ Html.Attributes.class "card" ]
+viewCard : Int -> Maybe Int -> Int -> Card -> Html Msg
+viewCard _ selected index card =
+    let
+        selectedAttr =
+            case selected of
+                Just si ->
+                    if si == index then
+                        [ Html.Attributes.class "selected" ]
+
+                    else
+                        []
+
+                Nothing ->
+                    []
+    in
+    li ([ Html.Attributes.class "card" ] ++ selectedAttr)
         [ h3 [ Html.Attributes.class "title" ] [ text card.name ]
         , h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
         , button [ Html.Events.onClick (NextHand card) ] [ text "Play card" ]
