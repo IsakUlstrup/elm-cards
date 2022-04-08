@@ -173,14 +173,13 @@ viewHand ( i, hand ) =
 
 
 viewCard : Int -> Card -> Html Msg
-viewCard handIndex card =
+viewCard _ card =
     li [ Html.Attributes.class "card" ]
         [ h3 [ Html.Attributes.class "title" ] [ text card.name ]
         , h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
         , button [ Html.Events.onClick (NextHand card) ] [ text "Play card" ]
         , div [ Html.Attributes.class "body" ]
-            [ p [] [ text ("Hand #" ++ String.fromInt handIndex) ]
-            , p [] [ text card.description ]
+            [ p [] [ text card.description ]
             ]
         ]
 
