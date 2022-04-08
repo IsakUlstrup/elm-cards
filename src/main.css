@@ -69,11 +69,9 @@ body {
   overflow: hidden;
 }
 
-.hud {
+.plant {
   flex: 0 1 content;
-  background: rgb(41, 78, 43);
   padding: 2rem;
-  opacity: 0;
 }
 
 .hand-container {

@@ -145,6 +145,11 @@ update msg model =
 ---- VIEW ----
 
 
+viewPlant : Plant -> Html msg
+viewPlant plant =
+    div [ Html.Attributes.class "plant" ] [ text "Plant" ]
+
+
 viewHands : List ( Int, GameHand ) -> Html Msg
 viewHands hands =
     Html.Keyed.node "section" [ Html.Attributes.class "hand-container" ] (List.map viewKeyedHand hands)
@@ -176,8 +181,7 @@ viewCard handIndex card =
 view : Model -> Html Msg
 view model =
     div [ Html.Attributes.id "app" ]
-        [ section [ Html.Attributes.class "hud" ]
-            []
+        [ viewPlant model.plant
         , viewHands model.hands
         ]
 
