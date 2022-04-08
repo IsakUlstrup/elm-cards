@@ -10,6 +10,7 @@ import Html.Attributes exposing (selected)
 import Html.Events
 import Html.Keyed
 import Html.Lazy
+import Json.Decode exposing (succeed)
 import Random
 
 
@@ -228,10 +229,15 @@ viewCard _ selected index card =
             else
                 []
     in
-    li ([ Html.Attributes.class "card", Html.Events.onClick (SelectCard index) ] ++ selectedAttr)
+    li
+        ([ Html.Attributes.class "card"
+         , Html.Events.onClick (SelectCard index)
+         ]
+            ++ selectedAttr
+        )
         [ h3 [ Html.Attributes.class "title" ] [ text card.name ]
         , h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
-        , button [ Html.Events.onClick (NextHand card), Html.Attributes.disabled (not selectedFlag) ] [ text "Play card" ]
+        , button [ Html.Events.stopPropagationOn "click" (succeed ( NextHand card, True )), Html.Attributes.disabled (not selectedFlag) ] [ text "Play card" ]
         , div [ Html.Attributes.class "body" ]
             [ p [] [ text card.description ]
             ]
