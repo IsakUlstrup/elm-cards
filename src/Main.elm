@@ -14,34 +14,6 @@ import Random
 
 
 
----- PLAYER ----
-
-
-applyCard : Card -> Plant -> Plant
-applyCard card plant =
-    let
-        applyOperation : CardOperation -> Plant -> Plant
-        applyOperation op plr =
-            case op of
-                Water n ->
-                    plr |> Engine.Plant.water n
-
-                Fertilize n ->
-                    plr |> Engine.Plant.fertilize n
-
-                Light n ->
-                    plr |> Engine.Plant.setLight n
-
-                Temperature n ->
-                    plr |> Engine.Plant.setTemperature n
-
-                Grow n ->
-                    plr |> Engine.Plant.grow n
-    in
-    List.foldr applyOperation plant card.operations
-
-
-
 ---- MODEL ----
 
 
@@ -57,7 +29,7 @@ type alias Model =
     { decks : List GameDeck
     , hands : List ( Int, GameHand )
     , handCount : Int
-    , player : Plant
+    , plant : Plant
     , seed : Random.Seed
     }
 
@@ -138,11 +110,35 @@ newHand model =
     }
 
 
+applyCard : Card -> Model -> Model
+applyCard card model =
+    let
+        applyOperation : CardOperation -> Plant -> Plant
+        applyOperation op plr =
+            case op of
+                Water n ->
+                    plr |> Engine.Plant.water n
+
+                Fertilize n ->
+                    plr |> Engine.Plant.fertilize n
+
+                Light n ->
+                    plr |> Engine.Plant.setLight n
+
+                Temperature n ->
+                    plr |> Engine.Plant.setTemperature n
+
+                Grow n ->
+                    plr |> Engine.Plant.grow n
+    in
+    { model | plant = List.foldr applyOperation model.plant card.operations }
+
+
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        NextHand _ ->
-            newHand model
+        NextHand card ->
+            model |> applyCard card |> newHand
 
 
 
