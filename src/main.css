@@ -92,7 +92,7 @@ body {
   display: flex;
   justify-content: center;
   justify-items: center;
-  align-items: flex-end;
+  align-items: stretch;
   list-style: none;
   flex: 1;
   animation-duration: var(--card-transition-duration);
