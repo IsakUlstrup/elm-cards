@@ -228,22 +228,11 @@ viewHand hand =
 viewCard : GameHand -> Int -> Card -> Html Msg
 viewCard hand index card =
     let
-        selectedFlag =
-            case hand.selected of
-                Just si ->
-                    if si == index then
-                        True
-
-                    else
-                        False
-
-                Nothing ->
-                    False
-
-        playedFlag =
-            case hand.played of
-                Just si ->
-                    if si == index then
+        flag : Maybe Int -> Int -> Bool
+        flag mi i =
+            case mi of
+                Just ji ->
+                    if ji == i then
                         True
 
                     else
@@ -253,10 +242,10 @@ viewCard hand index card =
                     False
 
         selectedAttr =
-            if selectedFlag && playedFlag then
+            if flag hand.selected index && flag hand.played index then
                 [ Html.Attributes.class "selected", Html.Attributes.class "played" ]
 
-            else if selectedFlag then
+            else if flag hand.selected index then
                 [ Html.Attributes.class "selected" ]
 
             else
@@ -272,7 +261,7 @@ viewCard hand index card =
         , h2 [ Html.Attributes.class "icon" ] [ text card.icon ]
         , button
             [ Html.Events.stopPropagationOn "click" (succeed ( NextHand index card, True ))
-            , Html.Attributes.disabled (not selectedFlag)
+            , Html.Attributes.disabled (not (flag hand.selected index))
             ]
             [ span []
                 [ text "💩"
