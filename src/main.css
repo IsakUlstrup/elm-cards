@@ -100,13 +100,14 @@ body {
 .hand-container {
   flex: 0 0 28rem;
   display: flex;
+  align-items: flex-end;
   overflow-x: hidden;
 }
 
 .hand {
   /* border: 1px solid red; */
   overflow-x: hidden;
-  padding: 4rem 0;
+  padding-top: 4rem;
   padding-bottom: 2rem;
   margin-left: auto;
   margin-right: auto;
@@ -149,7 +150,8 @@ body {
   user-select: none;
   display: block;
   text-align: center;
-  min-width: 15rem;
+  width: 10rem;
+  height: 15rem;
   font-size: 1rem;
   padding: 1rem;
   margin: 1rem;
@@ -176,6 +178,7 @@ body {
   padding: 10%;
   border-radius: 0 0 0.5rem 0.5rem;
   font-size: 1rem;
+  text-overflow: ellipsis;
 }
 
 .card .cost {
@@ -200,5 +203,5 @@ body {
 
 
 .card.played {
-  transform: scale(1.15) translateY(-4rem) rotate(-4deg);
+  transform: scale(1.15) translateY(-2rem) rotate(-3deg);
 }
