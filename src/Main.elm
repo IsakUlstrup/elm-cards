@@ -5,12 +5,11 @@ import Content.Cards as Cards
 import Engine.Card exposing (Card, CardOperation(..))
 import Engine.Deck exposing (Deck)
 import Engine.Plant exposing (Plant)
-import Html exposing (Html, button, div, h1, h2, li, p, span, sup, text, ul)
+import Html exposing (Html, div, h1, h2, li, p, span, sup, text, ul)
 import Html.Attributes
 import Html.Events
 import Html.Keyed
 import Html.Lazy
-import Json.Decode exposing (succeed)
 import Random
 
 
@@ -241,37 +240,21 @@ viewCard : GameHand -> Int -> Card -> Html Msg
 viewCard hand index card =
     let
         selectedAttr =
-            if maybeEq hand.selected index && maybeEq hand.played index then
-                [ Html.Attributes.class "selected", Html.Attributes.class "played" ]
-
-            else if maybeEq hand.selected index then
-                [ Html.Attributes.class "selected" ]
+            if maybeEq hand.played index then
+                [ Html.Attributes.class "played" ]
 
             else
                 []
-
-        elementType =
-            if maybeEq hand.selected index then
-                button
-                    [ Html.Events.stopPropagationOn "click" (succeed ( NextHand index card, True ))
-                    , Html.Attributes.disabled (not (maybeEq hand.selected index))
-                    , Html.Attributes.class "play-card-button"
-                    ]
-
-            else
-                div
-                    [ Html.Attributes.class "play-card-button"
-                    ]
     in
     li
         ([ Html.Attributes.class "card"
-         , Html.Events.onClick (SelectCard index)
+         , Html.Events.onClick (NextHand index card)
          ]
             ++ selectedAttr
         )
         [ h1 [ Html.Attributes.class "title" ] [ text card.name ]
         , h2 [ Html.Attributes.class "icon" ] [ text card.icon ]
-        , elementType
+        , div [ Html.Attributes.class "play-card-button" ]
             [ span []
                 [ text "💩"
                 , sup [] [ text "2" ]
