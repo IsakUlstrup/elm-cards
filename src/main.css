@@ -181,7 +181,7 @@ body {
   white-space: pre-line;
 }
 
-.card .play-card-button {
+.card .cost {
   display: flex;
   justify-content: center;
   gap: 10%;
