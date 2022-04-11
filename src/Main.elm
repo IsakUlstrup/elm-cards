@@ -233,18 +233,18 @@ viewCard hand index card =
         )
         [ h1 [ Html.Attributes.class "title" ] [ text card.name ]
         , h2 [ Html.Attributes.class "icon" ] [ text card.icon ]
-        , div [ Html.Attributes.class "cost" ]
-            [ span []
-                [ text "💩"
-                , sup [] [ text "2" ]
-                ]
-            , span []
-                [ text "💧"
-                , sup [] [ text "4" ]
-                ]
-            ]
         , div [ Html.Attributes.class "body" ]
-            [ p [] [ text card.description ]
+            [ div [ Html.Attributes.class "cost" ]
+                [ span []
+                    [ text "💩"
+                    , sup [] [ text "2" ]
+                    ]
+                , span []
+                    [ text "💧"
+                    , sup [] [ text "4" ]
+                    ]
+                ]
+            , p [] [ text card.description ]
             ]
         ]
 
