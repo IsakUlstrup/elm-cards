@@ -36,8 +36,7 @@ type alias GameDeck =
 {-| Selected card index, list of cards
 -}
 type alias GameHand =
-    { selected : Maybe Int
-    , played : Maybe Int
+    { played : Maybe Int
     , cards : List Card
     }
 
@@ -57,7 +56,7 @@ init =
         [ Cards.playerDeck
         , Cards.environmentDeck
         ]
-        [ GameHand Nothing Nothing []
+        [ GameHand Nothing []
         ]
         0
         Engine.Plant.new
@@ -73,7 +72,6 @@ init =
 
 type Msg
     = NextHand Int Card
-    | SelectCard Int
 
 
 {-| draw cards from first deck, and put it at the back of deck list
@@ -97,7 +95,7 @@ newHand model =
         -- get hand from first deck
         firstDeckHand : List GameDeck -> Maybe GameHand
         firstDeckHand ds =
-            List.head ds |> Maybe.andThen (\deck -> Just (GameHand Nothing Nothing deck.hand))
+            List.head ds |> Maybe.andThen (\deck -> Just (GameHand Nothing deck.hand))
 
         -- move first deck to the bottom of deck list
         moveDeckBack : List GameDeck -> List GameDeck
@@ -152,22 +150,6 @@ applyCard card model =
     { model | plant = List.foldr applyOperation model.plant card.operations }
 
 
-{-| Given an index and a hand, set selected card index, will toggle if provided index matches current selection
--}
-setSelected : Int -> GameHand -> GameHand
-setSelected i hand =
-    case hand.selected of
-        Just sel ->
-            if sel == i then
-                { hand | selected = Nothing }
-
-            else
-                { hand | selected = Just i }
-
-        Nothing ->
-            { hand | selected = Just i }
-
-
 {-| Set played card index
 -}
 setPlayed : Int -> GameHand -> GameHand
@@ -198,9 +180,6 @@ update msg model =
     case msg of
         NextHand ci card ->
             model |> updateCurrentHand (setPlayed ci) |> applyCard card |> newHand
-
-        SelectCard ci ->
-            model |> updateCurrentHand (setSelected ci)
 
 
 
