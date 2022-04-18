@@ -98,7 +98,7 @@ body {
 }
 
 .hand-container {
-  flex: 0 0 30%;
+  flex: 0 0 content;
   display: flex;
   align-items: flex-start;
   overflow-x: hidden;
@@ -106,10 +106,11 @@ body {
 
 .hand {
   /* border: 1px solid red; */
-  padding-top: 5%;
+  padding: 5% 0;
   overflow: hidden;
   display: flex;
   justify-content: center;
+  justify-items: flex-end;
   gap: 2%;
   list-style: none;
   flex: 1;
@@ -149,9 +150,10 @@ body {
   display: block;
   text-align: center;
   width: 30%;
-  height: 90%;
+  max-width: 10rem;
   font-size: 1rem;
-  padding: 3%;
+  padding: 1rem;
+  padding-bottom: 2rem;
   border-radius: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
@@ -176,7 +178,6 @@ body {
   background: rgba(255, 255, 255, 0.6);
   color: rgba(46, 46, 46, 0.9);
   padding: 10%;
-  white-space: nowrap;
   border-radius: 0.5rem;
   font-size: 1rem;
   flex-shrink: 1;
