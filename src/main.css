@@ -183,6 +183,13 @@ body {
   flex-shrink: 1;
 }
 
+.card .body ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
 
 .card .cost {
   display: flex;
