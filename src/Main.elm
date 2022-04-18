@@ -150,6 +150,11 @@ applyCard card model =
     { model | plant = List.foldr applyOperation model.plant card.operations }
 
 
+passTime : Model -> Model
+passTime model =
+    { model | plant = Engine.Plant.grow 10 model.plant }
+
+
 {-| Set played card index
 -}
 setPlayed : Int -> GameHand -> GameHand
@@ -179,7 +184,7 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         NextHand ci card ->
-            model |> updateCurrentHand (setPlayed ci) |> applyCard card |> newHand
+            model |> updateCurrentHand (setPlayed ci) |> applyCard card |> passTime |> newHand
 
 
 
