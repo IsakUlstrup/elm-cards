@@ -5,7 +5,7 @@ import Content.Cards as Cards
 import Engine.Card exposing (Card, CardOperation(..))
 import Engine.Deck exposing (Deck)
 import Engine.Plant exposing (Plant)
-import Html exposing (Html, div, h1, li, text, ul)
+import Html exposing (Html, div, h1, li, sup, text, ul)
 import Html.Attributes
 import Html.Events
 import Html.Keyed
@@ -226,24 +226,21 @@ viewCardOperations operations =
         operationText op =
             case op of
                 Water n ->
-                    "💧" ++ String.fromFloat n
+                    li [] [ text "💧", sup [] [ text (String.fromFloat n) ] ]
 
                 Fertilize n ->
-                    "💩" ++ String.fromFloat n
+                    li [] [ text "💩", sup [] [ text (String.fromFloat n) ] ]
 
                 Light n ->
-                    "☀️" ++ String.fromFloat n
+                    li [] [ text "☀️", sup [] [ text (String.fromFloat n) ] ]
 
                 Temperature n ->
-                    "🌡️" ++ String.fromFloat n
+                    li [] [ text "🌡️", sup [] [ text (String.fromFloat n) ] ]
 
                 Grow n ->
-                    "grow" ++ String.fromFloat n
-
-        cardOp op =
-            li [] [ text (operationText op) ]
+                    li [] [ text "grw", sup [] [ text (String.fromFloat n) ] ]
     in
-    ul [] (List.map cardOp operations)
+    ul [ Html.Attributes.class "operations" ] (List.map operationText operations)
 
 
 viewCard : GameHand -> Int -> Card -> Html Msg
@@ -263,8 +260,7 @@ viewCard hand index card =
             ++ selectedAttr
         )
         [ h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
-        , div [ Html.Attributes.class "body" ]
-            [ viewCardOperations card.operations ]
+        , viewCardOperations card.operations
         ]
 
 
