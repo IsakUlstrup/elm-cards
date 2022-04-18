@@ -44,9 +44,9 @@ passTimeCard =
 
 environmentDeck : Deck Card
 environmentDeck =
-    Engine.Deck.new "Environment" [ droughtCard, droughtCard, passTimeCard, droughtCard, monsoonCard, pandaCard, droughtCard, droughtCard, monsoonCard ]
+    Engine.Deck.new "Environment" [ droughtCard, droughtCard, droughtCard, monsoonCard, pandaCard, droughtCard, droughtCard, monsoonCard ]
 
 
 playerDeck : Deck Card
 playerDeck =
-    Engine.Deck.new "Player" [ rainCard, passTimeCard, cowCard, passTimeCard, rainCard, rainCard, cowCard, cowCard ]
+    Engine.Deck.new "Player" [ rainCard, cowCard, rainCard, rainCard, cowCard, cowCard ]
