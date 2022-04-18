@@ -5,7 +5,7 @@ import Content.Cards as Cards
 import Engine.Card exposing (Card, CardOperation(..))
 import Engine.Deck exposing (Deck)
 import Engine.Plant exposing (Plant)
-import Html exposing (Html, div, h1, h2, li, p, span, sup, text, ul)
+import Html exposing (Html, div, h1, h2, li, p, text, ul)
 import Html.Attributes
 import Html.Events
 import Html.Keyed
@@ -234,17 +234,7 @@ viewCard hand index card =
         [ h1 [ Html.Attributes.class "title" ] [ text card.name ]
         , h2 [ Html.Attributes.class "icon" ] [ text card.icon ]
         , div [ Html.Attributes.class "body" ]
-            [ div [ Html.Attributes.class "cost" ]
-                [ span []
-                    [ text "💩"
-                    , sup [] [ text "2" ]
-                    ]
-                , span []
-                    [ text "💧"
-                    , sup [] [ text "4" ]
-                    ]
-                ]
-            , p [] [ text card.description ]
+            [ p [] [ text card.description ]
             ]
         ]
 
