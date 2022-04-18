@@ -145,6 +145,7 @@ body {
 }
 
 .card {
+  margin-top: 2rem;
   position: relative;
   user-select: none;
   display: block;
@@ -162,6 +163,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
+
 
 .card .title {
   text-align: left;
