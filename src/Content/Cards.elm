@@ -38,6 +38,11 @@ passTimeCard =
     Engine.Card.new "Time" "⏳" "Time passes" [ Grow 1 ]
 
 
+waterBucket : Card
+waterBucket =
+    Engine.Card.new "Bucket" "\u{1FAA3}" "water bucket" [ Water 2 ]
+
+
 
 ---- DECKS ----
 
@@ -49,4 +54,4 @@ environmentDeck =
 
 playerDeck : Deck Card
 playerDeck =
-    Engine.Deck.new "Player" [ rainCard, cowCard, rainCard, rainCard, cowCard, cowCard ]
+    Engine.Deck.new "Player" [ waterBucket, cowCard, waterBucket, waterBucket, cowCard, cowCard ]
