@@ -8,14 +8,15 @@ type alias Deck c =
     , drawPile : List c
     , discardPile : List c
     , hand : List c
+    , handSize : Int
     }
 
 
 {-| Create new deck with given cards in draw pile
 -}
-new : String -> List c -> Deck c
-new name cards =
-    Deck name cards [] []
+new : String -> Int -> List c -> Deck c
+new name handSize cards =
+    Deck name cards [] [] handSize
 
 
 {-| Shuffle a list of cards, not yet implemented
@@ -74,9 +75,9 @@ discardHand deck =
 This is just the discardHand and draw functions combined
 
 -}
-discardDraw : Int -> Deck c -> Deck c
-discardDraw cards deck =
-    deck |> discardHand |> draw cards
+discardDraw : Deck c -> Deck c
+discardDraw deck =
+    deck |> discardHand |> draw deck.handSize
 
 
 {-| Given a list of decks, select one at random

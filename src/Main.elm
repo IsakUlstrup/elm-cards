@@ -85,7 +85,7 @@ newHand model =
             List.indexedMap
                 (\i d ->
                     if i == 0 then
-                        Engine.Deck.discardDraw 3 d
+                        Engine.Deck.discardDraw d
 
                     else
                         d

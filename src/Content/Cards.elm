@@ -39,9 +39,9 @@ waterBucket =
 
 environmentDeck : Deck Card
 environmentDeck =
-    Engine.Deck.new "Environment" [ droughtCard, monsoonCard, droughtCard, droughtCard, monsoonCard, droughtCard, droughtCard, monsoonCard ]
+    Engine.Deck.new "Environment" 1 [ droughtCard, monsoonCard, droughtCard, droughtCard, monsoonCard, droughtCard, droughtCard, monsoonCard ]
 
 
 playerDeck : Deck Card
 playerDeck =
-    Engine.Deck.new "Player" [ waterBucket, cowCard, waterBucket, waterBucket, cowCard, cowCard ]
+    Engine.Deck.new "Player" 3 [ waterBucket, cowCard, waterBucket, waterBucket, cowCard, cowCard ]
