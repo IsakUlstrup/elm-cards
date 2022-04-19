@@ -152,7 +152,7 @@ body {
   height: 9rem;
   max-width: 10rem;
   font-size: 1rem;
-  padding: 0.5rem;
+  padding: 0.8rem;
   padding-top: 1rem;
   border-radius: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -175,8 +175,8 @@ body {
 
 .card .operations {
   text-align: left;
-  background: rgba(255, 255, 255, 0.6);
-  color: rgba(46, 46, 46, 0.9);
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(46, 46, 46, 0.8);
   padding: 10%;
   border-radius: 0.5rem;
   font-size: 1rem;
