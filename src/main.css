@@ -176,7 +176,6 @@ body {
 .card .operations {
   text-align: left;
   background: rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.5);
   padding: 10%;
   border-radius: 0.5rem;
   font-size: 1rem;
@@ -185,9 +184,13 @@ body {
   display: flex;
   justify-content: center;
   gap: 0.2rem;
-  font-size: 12px;
+  font-size: 1rem;
 }
 
+.card .operations sup {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+}
 
 /* CARD SELECTED/PLAYED STATUS */
 
