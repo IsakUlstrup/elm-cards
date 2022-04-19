@@ -17,7 +17,7 @@
 
 :root {
   --card-transition-delay: 0.1s;
-  --card-transition-duration: 0.5s;
+  --card-transition-duration: 0.3s;
 }
 
 body {
@@ -160,7 +160,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 1s ease-out;
 }
 
 .card .title {
