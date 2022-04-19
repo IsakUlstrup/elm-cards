@@ -176,7 +176,7 @@ body {
 .card .operations {
   text-align: left;
   background: rgba(255, 255, 255, 0.2);
-  color: rgba(46, 46, 46, 0.8);
+  color: rgba(255, 255, 255, 0.5);
   padding: 10%;
   border-radius: 0.5rem;
   font-size: 1rem;
