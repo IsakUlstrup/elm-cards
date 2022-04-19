@@ -118,7 +118,6 @@ body {
   animation-delay: var(--card-transition-delay);
   animation-fill-mode: forwards;
   animation-name: contract;
-  height: 95%;
 }
 
 .hand:first-child {
@@ -144,7 +143,7 @@ body {
 }
 
 .card {
-  margin-top: 2rem;
+  margin-top: 1rem;
   position: relative;
   user-select: none;
   display: block;
