@@ -185,7 +185,6 @@ body {
   display: flex;
   justify-content: center;
   gap: 0.2rem;
-  flex-wrap: wrap;
   font-size: 12px;
 }
 
