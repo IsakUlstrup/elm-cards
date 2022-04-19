@@ -28,16 +28,6 @@ cowCard =
     Engine.Card.new "Cow" "🐄" "A cow passes by and poops everywhere" [ Fertilize 2 ]
 
 
-pandaCard : Card
-pandaCard =
-    Engine.Card.new "Panda" "🐼" "A panda nibbles on your plant before falling asleep" [ Grow -1 ]
-
-
-passTimeCard : Card
-passTimeCard =
-    Engine.Card.new "Time" "⏳" "Time passes" [ Grow 1 ]
-
-
 waterBucket : Card
 waterBucket =
     Engine.Card.new "Bucket" "\u{1FAA3}" "water bucket" [ Water 2 ]
@@ -49,7 +39,7 @@ waterBucket =
 
 environmentDeck : Deck Card
 environmentDeck =
-    Engine.Deck.new "Environment" [ droughtCard, droughtCard, droughtCard, monsoonCard, pandaCard, droughtCard, droughtCard, monsoonCard ]
+    Engine.Deck.new "Environment" [ droughtCard, monsoonCard, droughtCard, droughtCard, monsoonCard, droughtCard, droughtCard, monsoonCard ]
 
 
 playerDeck : Deck Card
