@@ -62,10 +62,3 @@ toCssString color =
         ++ "%, "
         ++ (color.lightness |> String.fromFloat)
         ++ "%)"
-
-
-{-| Create a css linear gradient from a list of colors
--}
-toCssGradient : List Color -> String
-toCssGradient colors =
-    "linear-gradient"
