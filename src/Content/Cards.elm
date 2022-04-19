@@ -13,9 +13,9 @@ rainCard =
     Engine.Card.new "Rain" "🌧️" "It's raining, water plant" [ Water 1, Light 40, Temperature 20 ]
 
 
-droughtCard : Card
-droughtCard =
-    Engine.Card.new "Drought" "☀️" "It's super hot, water evaporates" [ Water -1, Light 80, Temperature 60 ]
+sunny : Card
+sunny =
+    Engine.Card.new "Sunny" "☀️" "Sunny weather" [ Light 80, Temperature 60 ]
 
 
 monsoonCard : Card
@@ -39,7 +39,7 @@ waterBucket =
 
 environmentDeck : Deck Card
 environmentDeck =
-    Engine.Deck.new "Environment" 1 [ droughtCard, monsoonCard, droughtCard, droughtCard, monsoonCard, droughtCard, droughtCard, monsoonCard ]
+    Engine.Deck.new "Environment" 1 [ sunny, monsoonCard, sunny, sunny, monsoonCard, sunny, sunny, monsoonCard ]
 
 
 playerDeck : Deck Card
