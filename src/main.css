@@ -188,11 +188,6 @@ body {
   font-size: 12px;
 }
 
-.card .operations sup {
-  border-radius: 9999999rem;
-  padding: 0.1rem;
-}
-
 
 /* CARD SELECTED/PLAYED STATUS */
 
