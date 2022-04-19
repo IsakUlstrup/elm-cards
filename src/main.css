@@ -141,7 +141,6 @@ body {
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.7);
   background: #c94b4b;
   background: linear-gradient(to top, #601665, #c94b4b);
-  /* transform: translateZ(-1em); */
 }
 
 .card {
@@ -159,13 +158,11 @@ body {
   border-radius: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
-  /* transform-style: preserve-3d; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: transform 1s ease-out;
 }
-
 
 .card .title {
   text-align: left;
@@ -191,11 +188,10 @@ body {
   justify-content: center;
   gap: 0.2rem;
   flex-wrap: wrap;
+  font-size: 12px;
 }
 
 .card .operations sup {
-  font-size: 12px;
-  /* border: 1px solid red; */
   border-radius: 9999999rem;
   padding: 0.1rem;
 }
