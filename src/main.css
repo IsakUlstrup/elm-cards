@@ -62,11 +62,11 @@ body {
 
 @keyframes play-card {
   0% {
-    transform: translateY(-2rem) rotate(-3deg);
+    transform: translateY(0rem) rotate(0deg);
   }
 
   60% {
-    transform: scale(1.15) translateY(-4rem) rotate(-4deg);
+    transform: scale(1.07) translateY(-1.5rem) rotate(-4deg);
   }
 
 }
@@ -196,5 +196,5 @@ body {
 
 
 .played {
-  transform: scale(1.05) translateY(-1rem) rotate(-3deg);
+  animation: play-card 0.3s;
 }
