@@ -10,7 +10,7 @@ import Engine.Deck exposing (Deck)
 
 rainCard : Card
 rainCard =
-    Engine.Card.new "Rain" "🌧️" "It's raining, water plant" [ Water 1, Light 40, Temperature 20 ]
+    Engine.Card.new "Rain" "🌧️" "It's raining, water plant" [ Water 1, Light 40 ]
 
 
 sunny : Card
@@ -20,7 +20,7 @@ sunny =
 
 monsoonCard : Card
 monsoonCard =
-    Engine.Card.new "Monsoon" "⛈️" "A monsoon!, lots of water" [ Water 5, Light 40, Temperature 30 ]
+    Engine.Card.new "Monsoon" "⛈️" "A monsoon!, lots of water" [ Water 5, Light 40 ]
 
 
 cowCard : Card
