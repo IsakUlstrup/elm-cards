@@ -20,7 +20,7 @@ sunny =
 
 monsoonCard : Card
 monsoonCard =
-    Engine.Card.new Cyan "Monsoon" "⛈️" "A monsoon!, lots of water" [ Water 5, Light 40 ]
+    Engine.Card.new Black "Monsoon" "⛈️" "A monsoon!, lots of water" [ Water 5, Light 40 ]
 
 
 cowCard : Card

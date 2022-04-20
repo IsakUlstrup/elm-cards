@@ -142,18 +142,16 @@ body {
 }
 
 .cbg-cyan:before {
-  background: #43C6AC; 
   background: linear-gradient(to bottom, #F8FFAE, #43C6AC);
 }
 .cbg-magenta:before {
-  background: #ec008c;
-  background: linear-gradient(to bottom, #fc6767, #ec008c);
+  background: linear-gradient(to top, #fc6767, #ec008c);
 }
 .cbg-yellow:before {
   background: linear-gradient(to bottom, #F9D423, #FF4E50);
 }
 .cbg-black:before {
-  background: linear-gradient(to top, #7a7a7a, #313131);
+  background: linear-gradient(to bottom, #2C5364, #203A43, #0F2027);
 }
 
 .card {
@@ -169,7 +167,7 @@ body {
   padding: 0.8rem;
   padding-top: 1rem;
   border-radius: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.25));
   display: flex;
   flex-direction: column;
