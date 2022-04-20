@@ -15,7 +15,7 @@ rainCard =
 
 sunny : Card
 sunny =
-    Engine.Card.new Cyan "Sunny" "☀️" "Sunny weather" [ Light 80, Temperature 60 ]
+    Engine.Card.new Yellow "Sunny" "☀️" "Sunny weather" [ Light 80, Temperature 60 ]
 
 
 monsoonCard : Card
