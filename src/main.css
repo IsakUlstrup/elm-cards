@@ -142,10 +142,12 @@ body {
 }
 
 .cbg-cyan:before {
-  background: linear-gradient(to top, #1ac3cf, #06848a);
+  background: #43C6AC; 
+  background: linear-gradient(to bottom, #F8FFAE, #43C6AC);
 }
 .cbg-magenta:before {
-  background: linear-gradient(to top, #ee19ab, #df1476);
+  background: #ec008c;
+  background: linear-gradient(to bottom, #fc6767, #ec008c);
 }
 .cbg-yellow:before {
   background: linear-gradient(to top, #eed519, #df6c14);
@@ -167,7 +169,7 @@ body {
   padding: 0.8rem;
   padding-top: 1rem;
   border-radius: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(97, 97, 97, 0.3);
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
   display: flex;
   flex-direction: column;
