@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Content.Cards as Cards
-import Engine.Card exposing (Card, CardOperation(..))
+import Engine.Card exposing (Card, CardColor(..), CardOperation(..))
 import Engine.Deck exposing (Deck)
 import Engine.Plant exposing (Plant)
 import Html exposing (Html, div, h1, li, sup, text, ul)
@@ -252,12 +252,28 @@ viewCard hand index card =
 
             else
                 []
+
+        backgroundColorClass =
+            case card.color of
+                Cyan ->
+                    Html.Attributes.class "cbg-cyan"
+
+                Magenta ->
+                    Html.Attributes.class "cbg-magenta"
+
+                Yellow ->
+                    Html.Attributes.class "cbg-yellow"
+
+                Black ->
+                    Html.Attributes.class "cbg-black"
     in
     li
         ([ Html.Attributes.class "card"
+         , Html.Attributes.class "cbg-red"
          , Html.Events.onClick (NextHand index card)
          ]
             ++ selectedAttr
+            ++ [ backgroundColorClass ]
         )
         [ h1 [ Html.Attributes.class "icon" ] [ text card.icon ]
         , viewCardOperations card.operations

@@ -1,4 +1,4 @@
-module Engine.Card exposing (Card, CardOperation(..), new)
+module Engine.Card exposing (Card, CardColor(..), CardOperation(..), new)
 
 
 type alias Card =
@@ -6,7 +6,15 @@ type alias Card =
     , icon : String
     , description : String
     , operations : List CardOperation
+    , color : CardColor
     }
+
+
+type CardColor
+    = Cyan
+    | Magenta
+    | Yellow
+    | Black
 
 
 type CardOperation
@@ -17,6 +25,6 @@ type CardOperation
     | Grow Float
 
 
-new : String -> String -> String -> List CardOperation -> Card
-new name icon description operations =
-    Card name icon description operations
+new : CardColor -> String -> String -> String -> List CardOperation -> Card
+new color name icon description operations =
+    Card name icon description operations color

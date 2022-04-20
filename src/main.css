@@ -139,7 +139,19 @@ body {
   border-radius: 1rem;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.7);
   background: #c94b4b;
-  background: linear-gradient(to top, #601665, #c94b4b);
+}
+
+.cbg-cyan:before {
+  background: linear-gradient(to top, #1ac3cf, #06848a);
+}
+.cbg-magenta:before {
+  background: linear-gradient(to top, #ee19ab, #df1476);
+}
+.cbg-yellow:before {
+  background: linear-gradient(to top, #eed519, #df6c14);
+}
+.cbg-black:before {
+  background: linear-gradient(to top, #7a7a7a, #313131);
 }
 
 .card {
