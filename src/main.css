@@ -151,7 +151,7 @@ body {
   background: linear-gradient(to bottom, #F9D423, #FF4E50);
 }
 .cbg-black:before {
-  background: linear-gradient(to bottom, #2C5364, #203A43, #0F2027);
+  background: linear-gradient(to top, #2C5364, #203A43, #2b4048);
 }
 
 .card {
