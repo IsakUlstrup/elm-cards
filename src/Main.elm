@@ -193,14 +193,32 @@ update msg model =
 
 viewPlant : Plant -> Html msg
 viewPlant plant =
+    let
+        weatherIcon l =
+            if l < 20 then
+                "☁️"
+
+            else if l < 50 then
+                "⛅️"
+
+            else
+                "☀️"
+    in
     div [ Html.Attributes.class "plant" ]
         [ h1 [] [ text "🌱" ]
         , ul []
-            [ li [] [ text ("water: " ++ String.fromFloat plant.water) ]
-            , li [] [ text ("fertilizer: " ++ String.fromFloat plant.fertilizer) ]
-            , li [] [ text ("light: " ++ String.fromFloat plant.light) ]
-            , li [] [ text ("temp: " ++ String.fromFloat plant.temperature) ]
-            , li [] [ text ("growth: " ++ String.fromFloat plant.growth) ]
+            [ li [ Html.Attributes.class "stat" ]
+                [ text (weatherIcon plant.light)
+                , sup [] [ text (String.fromFloat plant.temperature ++ "℃") ]
+                ]
+            , li [ Html.Attributes.class "stat" ]
+                [ text "💧"
+                , sup [] [ text (String.fromFloat plant.water) ]
+                ]
+            , li [ Html.Attributes.class "stat" ]
+                [ text "💩"
+                , sup [] [ text (String.fromFloat plant.fertilizer) ]
+                ]
             ]
         ]
 
