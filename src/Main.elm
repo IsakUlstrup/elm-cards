@@ -209,7 +209,7 @@ viewPlant plant =
         , ul []
             [ li [ Html.Attributes.class "stat" ]
                 [ text (weatherIcon plant.light)
-                , sup [] [ text (String.fromFloat plant.temperature ++ "℃") ]
+                , sup [] [ text (String.fromFloat plant.temperature ++ "°") ]
                 ]
             , li [ Html.Attributes.class "stat" ]
                 [ text "💧"
