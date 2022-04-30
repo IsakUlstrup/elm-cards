@@ -1,20 +1,21 @@
-module Engine.Plant exposing (Plant, PlantTree, Terminus(..), fertilize, grow, new, setLight, setTemperature, water)
+module Engine.Plant exposing (Node(..), Plant, PlantTree, fertilize, grow, new, setLight, setTemperature, water)
 
 import Engine.BinaryTree exposing (Tree(..))
 
 
-type alias Stem =
+type alias StemData =
     { length : Float, thickness : Float }
 
 
-type Terminus
+type Node
     = Leaf
     | Berry
     | Flower
+    | Stem StemData
 
 
 type alias PlantTree =
-    Tree Terminus Stem
+    Tree Node
 
 
 type alias Plant =
@@ -31,7 +32,7 @@ type alias Plant =
 -}
 new : Plant
 new =
-    Plant 0 0 0 0 0 (Node { length = 30, thickness = 5 } (End Leaf) (Node { length = 20, thickness = 3 } (End Flower) (End Berry)))
+    Plant 0 0 0 0 0 (Node (Stem { length = 20, thickness = 3 }) Empty (Node Leaf Empty Empty))
 
 
 {-| Water plant

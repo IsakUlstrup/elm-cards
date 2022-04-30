@@ -5,7 +5,7 @@ import Content.Cards as Cards
 import Engine.BinaryTree exposing (Tree(..))
 import Engine.Card exposing (Card, CardColor(..), CardOperation(..))
 import Engine.Deck exposing (Deck)
-import Engine.Plant exposing (Plant, PlantTree, Terminus(..))
+import Engine.Plant exposing (Node(..), Plant, PlantTree)
 import Html exposing (Html, div, h1, li, sup, text, ul)
 import Html.Attributes
 import Html.Events
@@ -197,7 +197,7 @@ update msg model =
 viewPlantTree : PlantTree -> Html msg
 viewPlantTree tree =
     let
-        plantEndString e =
+        nodeString e =
             case e of
                 Leaf ->
                     "🌿"
@@ -208,34 +208,39 @@ viewPlantTree tree =
                 Flower ->
                     "🌼"
 
+                Stem _ ->
+                    ""
+
         renderNode : PlantTree -> Float -> Html msg
         renderNode n height =
             case n of
-                End e ->
-                    Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text (plantEndString e) ]
+                Empty ->
+                    Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text "" ]
 
                 Node s t1 t2 ->
                     Svg.g []
-                        [ Svg.line
-                            [ Svg.Attributes.x1 "0"
-                            , Svg.Attributes.y1 "0"
-                            , Svg.Attributes.x2 "-10"
-                            , Svg.Attributes.y2 (String.fromFloat (height + s.length * -1))
-                            , Svg.Attributes.stroke "green"
-                            , Svg.Attributes.strokeWidth (String.fromFloat s.thickness)
-                            ]
-                            []
-                        , Svg.line
-                            [ Svg.Attributes.x1 "0"
-                            , Svg.Attributes.y1 "0"
-                            , Svg.Attributes.x2 "10"
-                            , Svg.Attributes.y2 (String.fromFloat (height + s.length * -1))
-                            , Svg.Attributes.stroke "green"
-                            , Svg.Attributes.strokeWidth (String.fromFloat s.thickness)
-                            ]
-                            []
-                        , Svg.g [ Svg.Attributes.transform ("translate(-10, " ++ String.fromFloat (height + s.length * -1) ++ ")") ] [ renderNode t1 height ]
-                        , Svg.g [ Svg.Attributes.transform ("translate(10, " ++ String.fromFloat (height + s.length * -1) ++ ")") ] [ renderNode t2 height ]
+                        [ Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text (nodeString s) ]
+
+                        -- , Svg.line
+                        --     [ Svg.Attributes.x1 "0"
+                        --     , Svg.Attributes.y1 "0"
+                        --     , Svg.Attributes.x2 "-10"
+                        --     , Svg.Attributes.y2 (String.fromFloat (height + s.length * -1))
+                        --     , Svg.Attributes.stroke "green"
+                        --     , Svg.Attributes.strokeWidth (String.fromFloat s.thickness)
+                        --     ]
+                        --     []
+                        -- , Svg.line
+                        --     [ Svg.Attributes.x1 "0"
+                        --     , Svg.Attributes.y1 "0"
+                        --     , Svg.Attributes.x2 "10"
+                        --     , Svg.Attributes.y2 (String.fromFloat (height + s.length * -1))
+                        --     , Svg.Attributes.stroke "green"
+                        --     , Svg.Attributes.strokeWidth (String.fromFloat s.thickness)
+                        --     ]
+                        --     []
+                        , Svg.g [ Svg.Attributes.transform ("translate(-10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t1 height ]
+                        , Svg.g [ Svg.Attributes.transform ("translate(10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t2 height ]
 
                         -- , Svg.g [ Svg.Attributes.transform "translate(-36 45.5)" ] [ renderNode t2 height ]
                         ]

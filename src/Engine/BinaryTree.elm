@@ -1,6 +1,6 @@
 module Engine.BinaryTree exposing (..)
 
 
-type Tree a b
-    = End a
-    | Node b (Tree a b) (Tree a b)
+type Tree a
+    = Empty
+    | Node a (Tree a) (Tree a)
