@@ -209,7 +209,7 @@ viewPlantTree tree =
                     "🌼"
 
                 Stem _ ->
-                    ""
+                    "."
 
         renderNode : PlantTree -> Float -> Html msg
         renderNode n height =

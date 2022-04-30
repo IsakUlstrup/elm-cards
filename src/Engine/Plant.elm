@@ -32,7 +32,12 @@ type alias Plant =
 -}
 new : Plant
 new =
-    Plant 0 0 0 0 0 (Node (Stem { length = 20, thickness = 3 }) Empty (Node Leaf Empty Empty))
+    Plant 0
+        0
+        0
+        0
+        0
+        (Node (Stem { length = 20, thickness = 3 }) Empty (Node (Stem { length = 20, thickness = 3 }) Empty (Node Leaf (Node Flower Empty Empty) Empty)))
 
 
 {-| Water plant
