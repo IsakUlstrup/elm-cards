@@ -104,6 +104,10 @@ body {
   font-size: 12px;
 }
 
+.plant svg {
+  height: 10rem;
+}
+
 .plant h1 {
   font-size: 10rem;
 }

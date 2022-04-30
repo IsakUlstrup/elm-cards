@@ -2,15 +2,18 @@ module Main exposing (..)
 
 import Browser
 import Content.Cards as Cards
+import Engine.BinaryTree exposing (Tree(..))
 import Engine.Card exposing (Card, CardColor(..), CardOperation(..))
 import Engine.Deck exposing (Deck)
-import Engine.Plant exposing (Plant)
+import Engine.Plant exposing (Plant, PlantTree, Terminus(..))
 import Html exposing (Html, div, h1, li, sup, text, ul)
 import Html.Attributes
 import Html.Events
 import Html.Keyed
 import Html.Lazy
 import Random
+import Svg exposing (svg)
+import Svg.Attributes
 
 
 {-| Compare a maybe value and a value of the same type, return true is equal
@@ -191,6 +194,55 @@ update msg model =
 ---- VIEW ----
 
 
+viewPlantTree : PlantTree -> Html msg
+viewPlantTree tree =
+    let
+        plantEndString e =
+            case e of
+                Leaf ->
+                    "🌿"
+
+                Berry ->
+                    "🍓"
+
+                Flower ->
+                    "🌼"
+
+        renderNode : PlantTree -> Float -> Html msg
+        renderNode n height =
+            case n of
+                End e ->
+                    Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text (plantEndString e) ]
+
+                Node s t1 t2 ->
+                    Svg.g []
+                        [ Svg.line
+                            [ Svg.Attributes.x1 "0"
+                            , Svg.Attributes.y1 "0"
+                            , Svg.Attributes.x2 "-10"
+                            , Svg.Attributes.y2 (String.fromFloat (height + s.length * -1))
+                            , Svg.Attributes.stroke "green"
+                            , Svg.Attributes.strokeWidth (String.fromFloat s.thickness)
+                            ]
+                            []
+                        , Svg.line
+                            [ Svg.Attributes.x1 "0"
+                            , Svg.Attributes.y1 "0"
+                            , Svg.Attributes.x2 "10"
+                            , Svg.Attributes.y2 (String.fromFloat (height + s.length * -1))
+                            , Svg.Attributes.stroke "green"
+                            , Svg.Attributes.strokeWidth (String.fromFloat s.thickness)
+                            ]
+                            []
+                        , Svg.g [ Svg.Attributes.transform ("translate(-10, " ++ String.fromFloat (height + s.length * -1) ++ ")") ] [ renderNode t1 height ]
+                        , Svg.g [ Svg.Attributes.transform ("translate(10, " ++ String.fromFloat (height + s.length * -1) ++ ")") ] [ renderNode t2 height ]
+
+                        -- , Svg.g [ Svg.Attributes.transform "translate(-36 45.5)" ] [ renderNode t2 height ]
+                        ]
+    in
+    svg [ Svg.Attributes.viewBox "-50 -100 100 100" ] [ renderNode tree 0 ]
+
+
 viewPlant : Plant -> Html msg
 viewPlant plant =
     let
@@ -205,7 +257,7 @@ viewPlant plant =
                 "☀️"
     in
     div [ Html.Attributes.class "plant" ]
-        [ h1 [] [ text "🌱" ]
+        [ viewPlantTree plant.tree
         , ul []
             [ li [ Html.Attributes.class "stat" ]
                 [ text (weatherIcon plant.light)
