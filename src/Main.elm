@@ -214,34 +214,60 @@ viewPlantTree tree =
 
         renderNode : PlantTree -> Float -> Html msg
         renderNode n height =
+            let
+                leftLine =
+                    Svg.line
+                        [ Svg.Attributes.x1 "0"
+                        , Svg.Attributes.y1 "0"
+                        , Svg.Attributes.x2 "-10"
+                        , Svg.Attributes.y2 (String.fromFloat (20 * -1))
+                        , Svg.Attributes.stroke "green"
+                        , Svg.Attributes.strokeWidth "2"
+                        ]
+                        []
+
+                rightLine =
+                    Svg.line
+                        [ Svg.Attributes.x1 "0"
+                        , Svg.Attributes.y1 "0"
+                        , Svg.Attributes.x2 "10"
+                        , Svg.Attributes.y2 (String.fromFloat (20 * -1))
+                        , Svg.Attributes.stroke "green"
+                        , Svg.Attributes.strokeWidth "2"
+                        ]
+                        []
+
+                -- Draw lines to non empty trees
+                maybeNode t t2 =
+                    case ( t, t2 ) of
+                        ( Empty, Empty ) ->
+                            []
+
+                        ( _, Empty ) ->
+                            [ leftLine
+                            ]
+
+                        ( Empty, _ ) ->
+                            [ rightLine
+                            ]
+
+                        ( _, _ ) ->
+                            [ leftLine
+                            , rightLine
+                            ]
+            in
             case n of
                 Empty ->
                     Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text "" ]
 
                 Node s t1 t2 ->
                     Svg.g []
-                        [ Svg.line
-                            [ Svg.Attributes.x1 "0"
-                            , Svg.Attributes.y1 "0"
-                            , Svg.Attributes.x2 "-10"
-                            , Svg.Attributes.y2 (String.fromFloat (20 * -1))
-                            , Svg.Attributes.stroke "green"
-                            , Svg.Attributes.strokeWidth "1"
-                            ]
-                            []
-                        , Svg.line
-                            [ Svg.Attributes.x1 "0"
-                            , Svg.Attributes.y1 "0"
-                            , Svg.Attributes.x2 "10"
-                            , Svg.Attributes.y2 (String.fromFloat (20 * -1))
-                            , Svg.Attributes.stroke "green"
-                            , Svg.Attributes.strokeWidth "1"
-                            ]
-                            []
-                        , Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text (nodeString s) ]
-                        , Svg.g [ Svg.Attributes.transform ("translate(-10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t1 height ]
-                        , Svg.g [ Svg.Attributes.transform ("translate(10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t2 height ]
-                        ]
+                        (maybeNode t1 t2
+                            ++ [ Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text (nodeString s) ]
+                               , Svg.g [ Svg.Attributes.transform ("translate(-10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t1 height ]
+                               , Svg.g [ Svg.Attributes.transform ("translate(10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t2 height ]
+                               ]
+                        )
     in
     svg [ Svg.Attributes.viewBox "-50 -100 100 100" ] [ renderNode tree 0 ]
 
