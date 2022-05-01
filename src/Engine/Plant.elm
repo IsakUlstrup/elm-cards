@@ -30,14 +30,14 @@ type alias Plant =
 
 {-| Create a new plant
 -}
-new : Plant
-new =
+new : PlantTree -> Plant
+new plantTree =
     Plant 0
         0
         0
         0
         0
-        (Node (Stem { length = 20, thickness = 3 }) Empty (Node (Stem { length = 20, thickness = 3 }) Empty (Node Leaf (Node Flower Empty Empty) Empty)))
+        plantTree
 
 
 {-| Water plant

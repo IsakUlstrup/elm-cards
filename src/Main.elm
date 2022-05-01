@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Content.Cards as Cards
+import Content.Plants as Plants
 import Engine.BinaryTree exposing (Tree(..))
 import Engine.Card exposing (Card, CardColor(..), CardOperation(..))
 import Engine.Deck exposing (Deck)
@@ -62,7 +63,7 @@ init =
         [ GameHand Nothing []
         ]
         0
-        Engine.Plant.new
+        (Engine.Plant.new Plants.simpleFlower)
         (Random.initialSeed 42)
         |> newHand
     , Cmd.none
