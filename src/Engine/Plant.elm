@@ -3,15 +3,11 @@ module Engine.Plant exposing (Node(..), Plant, PlantTree, fertilize, grow, new, 
 import Engine.BinaryTree exposing (Tree(..))
 
 
-type alias StemData =
-    { length : Float, thickness : Float }
-
-
 type Node
     = Leaf
     | Berry
     | Flower
-    | Stem StemData
+    | Empty
 
 
 type alias PlantTree =

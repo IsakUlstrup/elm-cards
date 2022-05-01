@@ -6,29 +6,19 @@ import Engine.Plant exposing (Node(..))
 
 flowerEnd : Tree Node
 flowerEnd =
-    Node Flower Empty Empty
+    End Flower
 
 
 leafEnd : Tree Node
 leafEnd =
-    Node Leaf Empty Empty
+    End Leaf
 
 
-stem : Tree Node -> Tree Node -> Tree Node
-stem =
-    Node (Stem { length = 20, thickness = 3 })
-
-
-empty : Tree a
+empty : Tree Node
 empty =
-    Empty
-
-
-flower : Tree Node
-flower =
-    Node (Stem { length = 20, thickness = 3 }) Empty (Node (Stem { length = 20, thickness = 3 }) Empty (Node Leaf (Node Flower Empty Empty) Empty))
+    End Empty
 
 
 simpleFlower : Tree Node
 simpleFlower =
-    stem leafEnd (stem empty flowerEnd)
+    Node empty (Node leafEnd (Node (Node flowerEnd leafEnd) flowerEnd))

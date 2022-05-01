@@ -209,8 +209,8 @@ viewPlantTree tree =
                 Flower ->
                     "🌼"
 
-                Stem _ ->
-                    "."
+                Empty ->
+                    ""
 
         renderNode : PlantTree -> Float -> Html msg
         renderNode n height =
@@ -240,14 +240,14 @@ viewPlantTree tree =
                 -- Draw lines to non empty trees
                 maybeNode t t2 =
                     case ( t, t2 ) of
-                        ( Empty, Empty ) ->
+                        ( End Empty, End Empty ) ->
                             []
 
-                        ( _, Empty ) ->
+                        ( _, End Empty ) ->
                             [ leftLine
                             ]
 
-                        ( Empty, _ ) ->
+                        ( End Empty, _ ) ->
                             [ rightLine
                             ]
 
@@ -257,14 +257,13 @@ viewPlantTree tree =
                             ]
             in
             case n of
-                Empty ->
-                    Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text "" ]
+                End a ->
+                    Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text (nodeString a) ]
 
-                Node s t1 t2 ->
+                Node t1 t2 ->
                     Svg.g []
                         (maybeNode t1 t2
-                            ++ [ Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text (nodeString s) ]
-                               , Svg.g [ Svg.Attributes.transform ("translate(-10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t1 height ]
+                            ++ [ Svg.g [ Svg.Attributes.transform ("translate(-10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t1 height ]
                                , Svg.g [ Svg.Attributes.transform ("translate(10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t2 height ]
                                ]
                         )
