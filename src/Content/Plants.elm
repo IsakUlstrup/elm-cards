@@ -14,6 +14,11 @@ leafEnd =
     End Leaf
 
 
+berryEnd : Tree Node
+berryEnd =
+    End Berry
+
+
 empty : Tree Node
 empty =
     End Empty
@@ -21,4 +26,4 @@ empty =
 
 simpleFlower : Tree Node
 simpleFlower =
-    Node empty (Node leafEnd (Node (Node flowerEnd leafEnd) flowerEnd))
+    Node empty (Node leafEnd (Node (Node leafEnd berryEnd) flowerEnd))
