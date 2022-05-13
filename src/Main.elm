@@ -204,7 +204,7 @@ viewPlantTree tree =
                     "🌿"
 
                 Berry ->
-                    "🍒"
+                    "🥭"
 
                 Flower ->
                     "🌺"
@@ -228,7 +228,7 @@ viewPlantTree tree =
             in
             case n of
                 End a ->
-                    Svg.text_ [ Svg.Attributes.textAnchor "middle" ] [ Svg.text (nodeString a) ]
+                    Svg.text_ [ Svg.Attributes.textAnchor "middle", Svg.Attributes.y "5" ] [ Svg.text (nodeString a) ]
 
                 Node t1 t2 ->
                     Svg.g []
