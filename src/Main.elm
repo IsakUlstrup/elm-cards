@@ -212,8 +212,8 @@ viewPlantTree tree =
                 Empty ->
                     ""
 
-        renderNode : PlantTree -> Float -> Html msg
-        renderNode n height =
+        renderNode : PlantTree -> Html msg
+        renderNode n =
             let
                 line x =
                     Svg.line
@@ -225,23 +225,6 @@ viewPlantTree tree =
                         , Svg.Attributes.strokeWidth "2"
                         ]
                         []
-
-                -- Draw lines to non empty trees
-                maybeNode t t2 =
-                    case ( t, t2 ) of
-                        ( End Empty, End Empty ) ->
-                            []
-
-                        ( _, End Empty ) ->
-                            [ line 0 ]
-
-                        ( End Empty, _ ) ->
-                            [ line 0 ]
-
-                        ( _, _ ) ->
-                            [ line -10
-                            , line 10
-                            ]
             in
             case n of
                 End a ->
@@ -249,44 +232,39 @@ viewPlantTree tree =
 
                 Node t1 t2 ->
                     Svg.g []
-                        (maybeNode t1 t2
-                            ++ [ Svg.g [ Svg.Attributes.transform "translate(-10, -14)" ] [ renderNode t1 height ]
-                               , Svg.g [ Svg.Attributes.transform "translate(10, -14)" ] [ renderNode t2 height ]
-                               ]
+                        (case ( t1, t2 ) of
+                            -- No chidren
+                            ( End Empty, End Empty ) ->
+                                []
+
+                            -- Left child
+                            ( l, End Empty ) ->
+                                [ line 0
+                                , Svg.g [ Svg.Attributes.transform "translate(0, -14)" ] [ renderNode l ]
+                                ]
+
+                            -- Right child
+                            ( End Empty, r ) ->
+                                [ line 0
+                                , Svg.g [ Svg.Attributes.transform "translate(0, -14)" ] [ renderNode r ]
+                                ]
+
+                            -- Both children
+                            ( l, r ) ->
+                                [ line -10
+                                , line 10
+                                , Svg.g [ Svg.Attributes.transform "translate(-10, -14)" ] [ renderNode l ]
+                                , Svg.g [ Svg.Attributes.transform "translate(10, -14)" ] [ renderNode r ]
+                                ]
                         )
     in
-    svg [ Svg.Attributes.viewBox "-50 -100 100 100" ] [ renderNode tree 0 ]
+    svg [ Svg.Attributes.viewBox "-50 -100 100 100" ] [ renderNode tree ]
 
 
 viewPlant : Plant -> Html msg
 viewPlant plant =
-    let
-        weatherIcon l =
-            if l < 20 then
-                "☁️"
-
-            else if l < 50 then
-                "⛅️"
-
-            else
-                "☀️"
-    in
     div [ Html.Attributes.class "plant" ]
         [ viewPlantTree plant.tree
-        , ul []
-            [ li [ Html.Attributes.class "stat" ]
-                [ text (weatherIcon plant.light)
-                , sup [] [ text (String.fromFloat plant.temperature ++ "°") ]
-                ]
-            , li [ Html.Attributes.class "stat" ]
-                [ text "💧"
-                , sup [] [ text (String.fromFloat plant.water) ]
-                ]
-            , li [ Html.Attributes.class "stat" ]
-                [ text "💩"
-                , sup [] [ text (String.fromFloat plant.fertilizer) ]
-                ]
-            ]
         ]
 
 

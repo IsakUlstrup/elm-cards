@@ -26,4 +26,4 @@ empty =
 
 simpleFlower : Tree Node
 simpleFlower =
-    Node empty (Node leafEnd (Node (Node leafEnd berryEnd) flowerEnd))
+    Node empty (Node empty (Node leafEnd (Node (Node leafEnd berryEnd) flowerEnd)))
