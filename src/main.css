@@ -82,7 +82,7 @@ body {
 .plant {
   flex: 0 1 content;
   text-align: center;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .plant .stat {
@@ -105,7 +105,7 @@ body {
 }
 
 .plant svg {
-  height: 10rem;
+  height: 15rem;
   margin-bottom: 1rem;
 }
 

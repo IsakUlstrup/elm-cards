@@ -215,23 +215,12 @@ viewPlantTree tree =
         renderNode : PlantTree -> Float -> Html msg
         renderNode n height =
             let
-                leftLine =
+                line x =
                     Svg.line
                         [ Svg.Attributes.x1 "0"
                         , Svg.Attributes.y1 "0"
-                        , Svg.Attributes.x2 "-10"
-                        , Svg.Attributes.y2 (String.fromFloat (14 * -1))
-                        , Svg.Attributes.stroke "green"
-                        , Svg.Attributes.strokeWidth "2"
-                        ]
-                        []
-
-                rightLine =
-                    Svg.line
-                        [ Svg.Attributes.x1 "0"
-                        , Svg.Attributes.y1 "0"
-                        , Svg.Attributes.x2 "10"
-                        , Svg.Attributes.y2 (String.fromFloat (14 * -1))
+                        , Svg.Attributes.x2 (String.fromFloat x)
+                        , Svg.Attributes.y2 "-14"
                         , Svg.Attributes.stroke "green"
                         , Svg.Attributes.strokeWidth "2"
                         ]
@@ -244,16 +233,14 @@ viewPlantTree tree =
                             []
 
                         ( _, End Empty ) ->
-                            [ leftLine
-                            ]
+                            [ line 0 ]
 
                         ( End Empty, _ ) ->
-                            [ rightLine
-                            ]
+                            [ line 0 ]
 
                         ( _, _ ) ->
-                            [ leftLine
-                            , rightLine
+                            [ line -10
+                            , line 10
                             ]
             in
             case n of
@@ -263,8 +250,8 @@ viewPlantTree tree =
                 Node t1 t2 ->
                     Svg.g []
                         (maybeNode t1 t2
-                            ++ [ Svg.g [ Svg.Attributes.transform ("translate(-10, " ++ String.fromFloat (14 * -1) ++ ")") ] [ renderNode t1 height ]
-                               , Svg.g [ Svg.Attributes.transform ("translate(10, " ++ String.fromFloat (14 * -1) ++ ")") ] [ renderNode t2 height ]
+                            ++ [ Svg.g [ Svg.Attributes.transform "translate(-10, -14)" ] [ renderNode t1 height ]
+                               , Svg.g [ Svg.Attributes.transform "translate(10, -14)" ] [ renderNode t2 height ]
                                ]
                         )
     in
