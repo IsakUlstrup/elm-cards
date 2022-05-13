@@ -204,10 +204,10 @@ viewPlantTree tree =
                     "🌿"
 
                 Berry ->
-                    "🍓"
+                    "🍒"
 
                 Flower ->
-                    "🌼"
+                    "🌺"
 
                 Empty ->
                     ""
@@ -220,7 +220,7 @@ viewPlantTree tree =
                         [ Svg.Attributes.x1 "0"
                         , Svg.Attributes.y1 "0"
                         , Svg.Attributes.x2 "-10"
-                        , Svg.Attributes.y2 (String.fromFloat (20 * -1))
+                        , Svg.Attributes.y2 (String.fromFloat (14 * -1))
                         , Svg.Attributes.stroke "green"
                         , Svg.Attributes.strokeWidth "2"
                         ]
@@ -231,7 +231,7 @@ viewPlantTree tree =
                         [ Svg.Attributes.x1 "0"
                         , Svg.Attributes.y1 "0"
                         , Svg.Attributes.x2 "10"
-                        , Svg.Attributes.y2 (String.fromFloat (20 * -1))
+                        , Svg.Attributes.y2 (String.fromFloat (14 * -1))
                         , Svg.Attributes.stroke "green"
                         , Svg.Attributes.strokeWidth "2"
                         ]
@@ -263,8 +263,8 @@ viewPlantTree tree =
                 Node t1 t2 ->
                     Svg.g []
                         (maybeNode t1 t2
-                            ++ [ Svg.g [ Svg.Attributes.transform ("translate(-10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t1 height ]
-                               , Svg.g [ Svg.Attributes.transform ("translate(10, " ++ String.fromFloat (20 * -1) ++ ")") ] [ renderNode t2 height ]
+                            ++ [ Svg.g [ Svg.Attributes.transform ("translate(-10, " ++ String.fromFloat (14 * -1) ++ ")") ] [ renderNode t1 height ]
+                               , Svg.g [ Svg.Attributes.transform ("translate(10, " ++ String.fromFloat (14 * -1) ++ ")") ] [ renderNode t2 height ]
                                ]
                         )
     in
