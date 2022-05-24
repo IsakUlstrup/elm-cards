@@ -148,15 +148,15 @@ applyCard card model =
                 Temperature n ->
                     plr |> Engine.Environment.setTemperature n
 
-                Grow n ->
-                    plr |> Engine.Environment.grow n
+                Grow _ ->
+                    plr |> Engine.Environment.grow
     in
     { model | environemnt = List.foldr applyOperation model.environemnt card.operations }
 
 
 passTime : Model -> Model
 passTime model =
-    { model | environemnt = Engine.Environment.grow 10 model.environemnt }
+    { model | environemnt = Engine.Environment.grow model.environemnt }
 
 
 {-| Set played card index

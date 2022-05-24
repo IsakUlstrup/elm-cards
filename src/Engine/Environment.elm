@@ -64,6 +64,6 @@ setTemperature temp env =
 
 {-| Grow plant. Grow amount is based on supply of water/fertilizer
 -}
-grow : Float -> Environment -> Environment
-grow _ env =
+grow : Environment -> Environment
+grow env =
     env
