@@ -19,7 +19,6 @@ type alias Environment =
     , fertilizer : Float
     , light : Float
     , temperature : Float
-    , growth : Float
     , tree : PlantTree
     }
 
@@ -29,7 +28,6 @@ type alias Environment =
 new : PlantTree -> Environment
 new plantTree =
     Environment 0
-        0
         0
         0
         0
@@ -67,13 +65,5 @@ setTemperature temp env =
 {-| Grow plant. Grow amount is based on supply of water/fertilizer
 -}
 grow : Float -> Environment -> Environment
-grow amount env =
-    if env.water >= 1 && env.fertilizer >= 1 then
-        { env
-            | growth = clamp 0 100 (env.growth + amount)
-            , water = env.water - 1
-            , fertilizer = env.fertilizer - 1
-        }
-
-    else
-        env
+grow _ env =
+    env
