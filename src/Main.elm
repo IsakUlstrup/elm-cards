@@ -6,7 +6,7 @@ import Content.Plants as Plants
 import Engine.BinaryTree exposing (Tree(..))
 import Engine.Card exposing (Card, CardColor(..), CardOperation(..))
 import Engine.Deck exposing (Deck)
-import Engine.Plant exposing (Node(..), Plant, PlantTree)
+import Engine.Environment exposing (Environment, Node(..), PlantTree)
 import Html exposing (Html, div, h1, li, sup, text, ul)
 import Html.Attributes
 import Html.Events
@@ -49,7 +49,7 @@ type alias Model =
     { decks : List GameDeck
     , hands : List GameHand
     , handCount : Int
-    , plant : Plant
+    , environemnt : Environment
     , seed : Random.Seed
     }
 
@@ -63,7 +63,7 @@ init =
         [ GameHand Nothing []
         ]
         0
-        (Engine.Plant.new Plants.simpleFlower)
+        (Engine.Environment.new Plants.simpleFlower)
         (Random.initialSeed 42)
         |> newHand
     , Cmd.none
@@ -133,30 +133,30 @@ newHand model =
 applyCard : Card -> Model -> Model
 applyCard card model =
     let
-        applyOperation : CardOperation -> Plant -> Plant
+        applyOperation : CardOperation -> Environment -> Environment
         applyOperation op plr =
             case op of
                 Water n ->
-                    plr |> Engine.Plant.water n
+                    plr |> Engine.Environment.water n
 
                 Fertilize n ->
-                    plr |> Engine.Plant.fertilize n
+                    plr |> Engine.Environment.fertilize n
 
                 Light n ->
-                    plr |> Engine.Plant.setLight n
+                    plr |> Engine.Environment.setLight n
 
                 Temperature n ->
-                    plr |> Engine.Plant.setTemperature n
+                    plr |> Engine.Environment.setTemperature n
 
                 Grow n ->
-                    plr |> Engine.Plant.grow n
+                    plr |> Engine.Environment.grow n
     in
-    { model | plant = List.foldr applyOperation model.plant card.operations }
+    { model | environemnt = List.foldr applyOperation model.environemnt card.operations }
 
 
 passTime : Model -> Model
 passTime model =
-    { model | plant = Engine.Plant.grow 10 model.plant }
+    { model | environemnt = Engine.Environment.grow 10 model.environemnt }
 
 
 {-| Set played card index
@@ -261,10 +261,10 @@ viewPlantTree tree =
     svg [ Svg.Attributes.viewBox "-50 -100 100 100" ] [ renderNode tree ]
 
 
-viewPlant : Plant -> Html msg
-viewPlant plant =
+viewEnvironemnt : Environment -> Html msg
+viewEnvironemnt environemnt =
     div [ Html.Attributes.class "plant" ]
-        [ viewPlantTree plant.tree
+        [ viewPlantTree environemnt.tree
         ]
 
 
@@ -346,7 +346,7 @@ viewCard hand index card =
 view : Model -> Html Msg
 view model =
     div [ Html.Attributes.id "app" ]
-        [ viewPlant model.plant
+        [ viewEnvironemnt model.environemnt
         , viewHands model.handCount model.hands
         ]
 

@@ -1,7 +1,7 @@
 module Content.Plants exposing (..)
 
 import Engine.BinaryTree exposing (Tree(..))
-import Engine.Plant exposing (Node(..))
+import Engine.Environment exposing (Node(..))
 
 
 flowerEnd : Tree Node
